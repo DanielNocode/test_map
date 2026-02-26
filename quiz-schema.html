@@ -283,17 +283,17 @@ body {
   <div class="toolbar-sep"></div>
   <div class="toolbar-nav">
     <div class="chip chip-purple" onclick="jumpTo(880,60)">Блок 1</div>
-    <div class="chip chip-pink" onclick="jumpTo(200,750)">2А</div>
-    <div class="chip chip-blue" onclick="jumpTo(1400,750)">2Б</div>
-    <div class="chip chip-orange" onclick="jumpTo(600,1700)">Блок 3</div>
-    <div class="chip chip-pink" onclick="jumpTo(200,3200)">4А</div>
-    <div class="chip chip-blue" onclick="jumpTo(1400,3200)">4Б</div>
-    <div class="chip chip-pink" onclick="jumpTo(200,3900)">Блок 5</div>
-    <div class="chip chip-green" onclick="jumpTo(800,5200)">Результат</div>
+    <div class="chip chip-pink" onclick="jumpTo(200,1200)">2А</div>
+    <div class="chip chip-blue" onclick="jumpTo(1400,1200)">2Б</div>
+    <div class="chip chip-orange" onclick="jumpTo(600,2500)">Блок 3</div>
+    <div class="chip chip-pink" onclick="jumpTo(200,3500)">4А</div>
+    <div class="chip chip-blue" onclick="jumpTo(1400,3500)">4Б</div>
+    <div class="chip chip-pink" onclick="jumpTo(200,4200)">Блок 5</div>
+    <div class="chip chip-green" onclick="jumpTo(800,5300)">Результат</div>
   </div>
   <div class="zoom-controls">
-    <button class="tbtn" onclick="zoomBy(-0.1)">−</button>
-    <span id="zoomLvl">70%</span>
+    <button class="tbtn" onclick="zoomBy(-0.1)">-</button>
+    <span id="zoomLvl">45%</span>
     <button class="tbtn" onclick="zoomBy(0.1)">+</button>
     <button class="tbtn" onclick="resetView()">Fit</button>
   </div>
@@ -305,7 +305,7 @@ body {
   <div class="canvas" id="canvas">
 
     <!-- SVG arrows -->
-    <svg class="arrows-svg" id="svg" width="2200" height="6000">
+    <svg class="arrows-svg" id="svg" width="2600" height="7000">
       <defs>
         <marker id="ap" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#a06bff"/></marker>
         <marker id="ak" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#ff6b9d"/></marker>
@@ -329,14 +329,18 @@ body {
 Начнём с главного. Сейчас ты...</div>
       <table class="qcard-table">
         <tr><th>Кнопка</th><th>Значение</th><th>Далее</th></tr>
-        <tr><td><span class="b">1</span> Свободна</td><td class="v">free</td><td>→ 1.1б</td></tr>
-        <tr><td><span class="b">2</span> В отношениях</td><td class="v">together</td><td>→ 1.2</td></tr>
-        <tr><td><span class="b">3</span> Замужем</td><td class="v">married</td><td>→ 1.2</td></tr>
+        <tr><td><span class="b">1</span> Свободна</td><td class="v">free</td><td>-> 1.1б</td></tr>
+        <tr><td><span class="b">2</span> В отношениях</td><td class="v">together</td><td>-> 1.2</td></tr>
+        <tr><td><span class="b">3</span> Замужем</td><td class="v">married</td><td>-> 1.2</td></tr>
       </table>
     </div>
 
+    <!-- branch labels -->
+    <div class="branch-tag" style="left:620px; top:295px; background:var(--blue-bg); color:var(--blue);">status = free</div>
+    <div class="branch-tag" style="left:1350px; top:295px; background:var(--pink-bg); color:var(--pink);">status != free</div>
+
     <!-- Q 1.1б -->
-    <div class="qcard qcard-purple" id="q11b" style="left:540px; top:340px;">
+    <div class="qcard qcard-purple" id="q11b" style="left:440px; top:340px;">
       <div class="qcard-head">
         <span class="qcard-num">1.1б</span>
         <span class="qcard-title">Почему сейчас одна?</span>
@@ -352,17 +356,17 @@ body {
         <tr><td><span class="b">4</span> Сама так решила</td><td class="v">by_choice</td></tr>
         <tr><td><span class="b">5</span> Так сложилось</td><td class="v">just_happened</td></tr>
       </table>
-      <div class="qcard-next">→ <strong>Вопрос 1.3</strong></div>
+      <div class="qcard-next">-> <strong>Вопрос 1.3</strong></div>
     </div>
 
     <!-- Q 1.2 -->
-    <div class="qcard qcard-purple" id="q12" style="left:1220px; top:340px;">
+    <div class="qcard qcard-purple" id="q12" style="left:1300px; top:340px;">
       <div class="qcard-head">
         <span class="qcard-num">1.2</span>
         <span class="qcard-title">Сколько вы вместе?</span>
         <span class="qcard-var">{years}</span>
       </div>
-      <div class="qcard-msg">Только если status ≠ free</div>
+      <div class="qcard-msg">Только если status != free</div>
       <table class="qcard-table">
         <tr><th>Кнопка</th><th>Значение</th></tr>
         <tr><td><span class="b">1</span> До 1 года</td><td class="v">under1</td></tr>
@@ -371,15 +375,11 @@ body {
         <tr><td><span class="b">4</span> 7-15 лет</td><td class="v">7to15</td></tr>
         <tr><td><span class="b">5</span> Больше 15 лет</td><td class="v">over15</td></tr>
       </table>
-      <div class="qcard-next">→ <strong>Вопрос 1.3</strong></div>
+      <div class="qcard-next">-> <strong>Вопрос 1.3</strong></div>
     </div>
 
-    <!-- branch labels -->
-    <div class="branch-tag" style="left:720px; top:280px; background:var(--blue-bg); color:var(--blue);">status = free</div>
-    <div class="branch-tag" style="left:1350px; top:280px; background:var(--pink-bg); color:var(--pink);">status ≠ free</div>
-
     <!-- Q 1.3 -->
-    <div class="qcard qcard-purple" id="q13" style="left:880px; top:640px;">
+    <div class="qcard qcard-purple" id="q13" style="left:880px; top:760px;">
       <div class="qcard-head">
         <span class="qcard-num">1.3</span>
         <span class="qcard-title">Дети?</span>
@@ -393,116 +393,262 @@ body {
         <tr><td><span class="b">4</span> Уже взрослые</td><td class="v">adult</td></tr>
       </table>
       <div class="qcard-next">
-        <span class="next-blue">status = free → Блок 2Б</span> ·
-        <span class="next-pink">status ≠ free → Блок 2А</span>
+        <span class="next-pink">status != free -> Блок 2А</span> &middot;
+        <span class="next-blue">status = free -> Блок 2Б</span>
       </div>
     </div>
 
     <!-- ========== DECISION ========== -->
-    <div class="decision" id="dec1" style="left:920px; top:900px;">
+    <div class="decision" id="dec1" style="left:920px; top:1040px;">
       <div class="decision-label">Развилка по {status}</div>
-      <div class="decision-sub">free → 2Б · together/married → 2А</div>
+      <div class="decision-sub">free -> 2Б &middot; together/married -> 2А</div>
     </div>
 
-    <!-- ========== BLOCK 2A: IN COUPLE ========== -->
-    <div class="group-label" style="left:100px; top:980px; color:var(--pink);">Блок 2А: В Паре</div>
 
-    <!-- placeholder for stage 3 content -->
-    <div class="placeholder-card qcard-pink" id="q2a1" style="left:200px; top:1020px;">
-      Этап 3 — Вопрос 2А.1<br>{her_role}
-    </div>
-    <div class="placeholder-card qcard-pink" id="q2a2" style="left:200px; top:1180px;">
-      Этап 3 — Вопрос 2А.2<br>{her_goal}
-    </div>
-    <div class="placeholder-card qcard-pink" id="q2a3" style="left:200px; top:1340px;">
-      Этап 3 — Вопрос 2А.3<br>{her_experience}<br>→ Блок 3
-    </div>
+    <!-- ============================================================ -->
+    <!-- ========== BLOCK 2A: IN COUPLE (3 questions) =============== -->
+    <!-- ============================================================ -->
+    <div class="group-label" style="left:60px; top:1130px; color:var(--pink);">Блок 2А: В Паре (status != free)</div>
 
-    <!-- ========== BLOCK 2B: SINGLE ========== -->
-    <div class="group-label" style="left:1350px; top:980px; color:var(--blue);">Блок 2Б: Свободна</div>
-
-    <div class="placeholder-card qcard-blue" id="q2b1" style="left:1400px; top:1020px;">
-      Этап 3 — Вопрос 2Б.1<br>{last_sex} · баллы
-    </div>
-    <div class="placeholder-card qcard-blue" id="q2b2" style="left:1400px; top:1180px;">
-      Этап 3 — Вопрос 2Б.2<br>{dates_invites} · баллы
-    </div>
-    <div class="placeholder-card qcard-blue" id="q2b3" style="left:1400px; top:1340px;">
-      Этап 3 — Вопрос 2Б.3<br>{dating_apps} · баллы
-    </div>
-    <div class="placeholder-card qcard-blue" id="q2b4" style="left:1780px; top:1020px;">
-      Этап 3 — Вопрос 2Б.4<br>{flirt_skill} · баллы
-    </div>
-    <div class="placeholder-card qcard-blue" id="q2b5" style="left:1780px; top:1180px;">
-      Этап 3 — Вопрос 2Б.5<br>{first_date_feel} · баллы
-    </div>
-    <div class="placeholder-card qcard-blue" id="q2b6" style="left:1780px; top:1340px;">
-      Этап 3 — Вопрос 2Б.6<br>{her_goal_single}<br>→ Блок 3
+    <!-- Q 2A.1 -->
+    <div class="qcard qcard-pink" id="q2a1" style="left:100px; top:1180px;">
+      <div class="qcard-head">
+        <span class="qcard-num">2А.1</span>
+        <span class="qcard-title">В близости комфортнее...</span>
+        <span class="qcard-var">{her_role}</span>
+      </div>
+      <div class="qcard-msg">В близости тебе комфортнее, когда...</div>
+      <table class="qcard-table">
+        <tr><th>Кнопка</th><th>Значение</th></tr>
+        <tr><td><span class="b">1</span> Он ведёт, я отдаюсь</td><td class="v">receiver</td></tr>
+        <tr><td><span class="b">2</span> Я веду, он в моих руках</td><td class="v">giver</td></tr>
+        <tr><td><span class="b">3</span> Мы на равных</td><td class="v">equal</td></tr>
+        <tr><td><span class="b">4</span> Зависит от настроения</td><td class="v">flexible</td></tr>
+      </table>
+      <div class="qcard-next">-> <strong>2А.2</strong></div>
     </div>
 
-    <!-- ========== BLOCK 3: OPENNESS ========== -->
-    <div class="group-label" style="left:650px; top:1580px; color:var(--orange);">Блок 3: Раскрепощённость (для всех)</div>
+    <!-- Q 2A.2 -->
+    <div class="qcard qcard-pink" id="q2a2" style="left:100px; top:1530px;">
+      <div class="qcard-head">
+        <span class="qcard-num">2А.2</span>
+        <span class="qcard-title">Прокачать одно — что?</span>
+        <span class="qcard-var">{her_goal}</span>
+      </div>
+      <div class="qcard-msg">Если бы можно было прокачать одно — что бы выбрала?</div>
+      <table class="qcard-table">
+        <tr><th>Кнопка</th><th>Значение</th></tr>
+        <tr><td><span class="b">1</span> Чувствовать себя желанной</td><td class="v">confidence</td></tr>
+        <tr><td><span class="b">2</span> Доставлять ему незабываемое</td><td class="v">skills</td></tr>
+        <tr><td><span class="b">3</span> Получать больше удовольствия</td><td class="v">pleasure</td></tr>
+        <tr><td><span class="b">4</span> Добавить экспериментов</td><td class="v">experiments</td></tr>
+      </table>
+      <div class="qcard-next">-> <strong>2А.3</strong></div>
+    </div>
 
-    <div class="placeholder-card qcard-orange" id="q31" style="left:200px; top:1640px;">Этап 4 — Вопрос 3.1<br>{style} · баллы</div>
-    <div class="placeholder-card qcard-orange" id="q32" style="left:600px; top:1640px;">Этап 4 — Вопрос 3.2<br>{oral_attitude} · баллы</div>
-    <div class="placeholder-card qcard-orange" id="q33" style="left:1000px; top:1640px;">Этап 4 — Вопрос 3.3<br>{body_comfort} · баллы</div>
-    <div class="placeholder-card qcard-orange" id="q34" style="left:1400px; top:1640px;">Этап 4 — Вопрос 3.4<br>{toys_exp} · баллы</div>
-    <div class="placeholder-card qcard-orange" id="q35" style="left:1800px; top:1640px;">Этап 4 — Вопрос 3.5<br>{communicate_desires}</div>
-    <div class="placeholder-card qcard-orange" id="q36" style="left:200px; top:1820px;">Этап 4 — Вопрос 3.6<br>{experiments} · баллы</div>
-    <div class="placeholder-card qcard-orange" id="q37" style="left:600px; top:1820px;">Этап 4 — Вопрос 3.7<br>{her_initiative} · баллы</div>
-    <div class="placeholder-card qcard-orange" id="q38" style="left:1000px; top:1820px;">Этап 4 — Вопрос 3.8<br>{vocal} · баллы</div>
-    <div class="placeholder-card qcard-orange" id="q39" style="left:1400px; top:1820px;">Этап 4 — Вопрос 3.9<br>{location} · баллы</div>
+    <!-- Q 2A.3 -->
+    <div class="qcard qcard-pink" id="q2a3" style="left:100px; top:1880px;">
+      <div class="qcard-head">
+        <span class="qcard-num">2А.3</span>
+        <span class="qcard-title">Что уже есть?</span>
+        <span class="qcard-var">{her_experience}</span>
+      </div>
+      <div class="qcard-msg">Что из этого уже есть в твоей жизни? (выбери главное)</div>
+      <table class="qcard-table">
+        <tr><th>Кнопка</th><th>Значение</th></tr>
+        <tr><td><span class="b">1</span> Оральные ласки — моя сила</td><td class="v">oral</td></tr>
+        <tr><td><span class="b">2</span> Экспериментирую с позами</td><td class="v">poses</td></tr>
+        <tr><td><span class="b">3</span> Использую игрушки</td><td class="v">toys</td></tr>
+        <tr><td><span class="b">4</span> Пробовала ролевые</td><td class="v">roleplay</td></tr>
+        <tr><td><span class="b">5</span> Базовый опыт, хочу большего</td><td class="v">basic</td></tr>
+      </table>
+      <div class="qcard-next">-> <strong>Блок 3</strong> (вопрос 3.1)</div>
+    </div>
+
+
+    <!-- ============================================================ -->
+    <!-- ========== BLOCK 2B: SINGLE (6 questions) ================== -->
+    <!-- ============================================================ -->
+    <div class="group-label" style="left:1350px; top:1130px; color:var(--blue);">Блок 2Б: Свободна (status = free)</div>
+
+    <!-- Q 2Б.1 -->
+    <div class="qcard qcard-blue" id="q2b1" style="left:1400px; top:1180px;">
+      <div class="qcard-head">
+        <span class="qcard-num">2Б.1</span>
+        <span class="qcard-title">Когда последний секс?</span>
+        <span class="qcard-var">{last_sex}</span>
+      </div>
+      <div class="qcard-msg">Когда у тебя был секс последний раз?</div>
+      <table class="qcard-table">
+        <tr><th>Кнопка</th><th>Значение</th><th class="p">Баллы</th></tr>
+        <tr><td><span class="b">1</span> На этой неделе</td><td class="v">this_week</td><td class="p">5</td></tr>
+        <tr><td><span class="b">2</span> В этом месяце</td><td class="v">this_month</td><td class="p">4</td></tr>
+        <tr><td><span class="b">3</span> Несколько месяцев назад</td><td class="v">few_months</td><td class="p">3</td></tr>
+        <tr><td><span class="b">4</span> Полгода-год назад</td><td class="v">half_year</td><td class="p">2</td></tr>
+        <tr><td><span class="b">5</span> Больше года</td><td class="v">over_year</td><td class="p">1</td></tr>
+      </table>
+      <div class="qcard-next">-> <strong>2Б.2</strong></div>
+    </div>
+
+    <!-- Q 2Б.2 -->
+    <div class="qcard qcard-blue" id="q2b2" style="left:1400px; top:1530px;">
+      <div class="qcard-head">
+        <span class="qcard-num">2Б.2</span>
+        <span class="qcard-title">Тебя зовут на свидания?</span>
+        <span class="qcard-var">{dates_invites}</span>
+      </div>
+      <table class="qcard-table">
+        <tr><th>Кнопка</th><th>Значение</th><th class="p">Баллы</th></tr>
+        <tr><td><span class="b">1</span> Регулярно, отбоя нет</td><td class="v">often</td><td class="p">5</td></tr>
+        <tr><td><span class="b">2</span> Иногда приглашают</td><td class="v">sometimes</td><td class="p">4</td></tr>
+        <tr><td><span class="b">3</span> Редко, но бывает</td><td class="v">rare</td><td class="p">3</td></tr>
+        <tr><td><span class="b">4</span> Почти никогда</td><td class="v">almost_never</td><td class="p">2</td></tr>
+        <tr><td><span class="b">5</span> Сама не даю повода</td><td class="v">no_signals</td><td class="p">1</td></tr>
+      </table>
+      <div class="qcard-next">-> <strong>2Б.3</strong></div>
+    </div>
+
+    <!-- Q 2Б.3 -->
+    <div class="qcard qcard-blue" id="q2b3" style="left:1400px; top:1880px;">
+      <div class="qcard-head">
+        <span class="qcard-num">2Б.3</span>
+        <span class="qcard-title">Приложения для знакомств?</span>
+        <span class="qcard-var">{dating_apps}</span>
+      </div>
+      <div class="qcard-msg">Пользуешься приложениями для знакомств?</div>
+      <table class="qcard-table">
+        <tr><th>Кнопка</th><th>Значение</th><th class="p">Баллы</th></tr>
+        <tr><td><span class="b">1</span> Да, активно свайпаю</td><td class="v">active</td><td class="p">5</td></tr>
+        <tr><td><span class="b">2</span> Есть профиль, иногда</td><td class="v">passive</td><td class="p">3</td></tr>
+        <tr><td><span class="b">3</span> Пробовала, удалила</td><td class="v">tried_quit</td><td class="p">2</td></tr>
+        <tr><td><span class="b">4</span> Нет, принципиально</td><td class="v">no_principle</td><td class="p">1</td></tr>
+        <tr><td><span class="b">5</span> Думаю попробовать</td><td class="v">thinking</td><td class="p">2</td></tr>
+      </table>
+      <div class="qcard-next">-> <strong>2Б.4</strong></div>
+    </div>
+
+    <!-- Q 2Б.4 -->
+    <div class="qcard qcard-blue" id="q2b4" style="left:1820px; top:1180px;">
+      <div class="qcard-head">
+        <span class="qcard-num">2Б.4</span>
+        <span class="qcard-title">Умеешь флиртовать?</span>
+        <span class="qcard-var">{flirt_skill}</span>
+      </div>
+      <table class="qcard-table">
+        <tr><th>Кнопка</th><th>Значение</th><th class="p">Баллы</th></tr>
+        <tr><td><span class="b">1</span> Мой конёк, мужчины тают</td><td class="v">expert</td><td class="p">5</td></tr>
+        <tr><td><span class="b">2</span> Умею, когда нравится</td><td class="v">good</td><td class="p">4</td></tr>
+        <tr><td><span class="b">3</span> Пытаюсь, не уверена</td><td class="v">trying</td><td class="p">3</td></tr>
+        <tr><td><span class="b">4</span> Стесняюсь</td><td class="v">shy</td><td class="p">2</td></tr>
+        <tr><td><span class="b">5</span> Жду когда сами подойдут</td><td class="v">passive</td><td class="p">1</td></tr>
+      </table>
+      <div class="qcard-next">-> <strong>2Б.5</strong></div>
+    </div>
+
+    <!-- Q 2Б.5 -->
+    <div class="qcard qcard-blue" id="q2b5" style="left:1820px; top:1530px;">
+      <div class="qcard-head">
+        <span class="qcard-num">2Б.5</span>
+        <span class="qcard-title">На первом свидании?</span>
+        <span class="qcard-var">{first_date_feel}</span>
+      </div>
+      <div class="qcard-msg">Как ты себя ощущаешь на первом свидании?</div>
+      <table class="qcard-table">
+        <tr><th>Кнопка</th><th>Значение</th><th class="p">Баллы</th></tr>
+        <tr><td><span class="b">1</span> Как королева</td><td class="v">confident</td><td class="p">5</td></tr>
+        <tr><td><span class="b">2</span> Нормально, чуть волнуюсь</td><td class="v">normal</td><td class="p">4</td></tr>
+        <tr><td><span class="b">3</span> Напрягаюсь</td><td class="v">tense</td><td class="p">2</td></tr>
+        <tr><td><span class="b">4</span> Сильно нервничаю</td><td class="v">anxious</td><td class="p">1</td></tr>
+        <tr><td><span class="b">5</span> Давно не была, не помню</td><td class="v">forgot</td><td class="p">2</td></tr>
+      </table>
+      <div class="qcard-next">-> <strong>2Б.6</strong></div>
+    </div>
+
+    <!-- Q 2Б.6 -->
+    <div class="qcard qcard-blue" id="q2b6" style="left:1820px; top:1880px;">
+      <div class="qcard-head">
+        <span class="qcard-num">2Б.6</span>
+        <span class="qcard-title">Прокачать одно — что?</span>
+        <span class="qcard-var">{her_goal_single}</span>
+      </div>
+      <div class="qcard-msg">Если бы можно было прокачать одно — что бы выбрала?</div>
+      <table class="qcard-table">
+        <tr><th>Кнопка</th><th>Значение</th></tr>
+        <tr><td><span class="b">1</span> Привлекать достойных мужчин</td><td class="v">attract</td></tr>
+        <tr><td><span class="b">2</span> Увереннее в сексуальности</td><td class="v">confidence</td></tr>
+        <tr><td><span class="b">3</span> Понять какой мужчина нужен</td><td class="v">understand</td></tr>
+        <tr><td><span class="b">4</span> Искусство соблазнения</td><td class="v">seduce</td></tr>
+        <tr><td><span class="b">5</span> Строить здоровые отношения</td><td class="v">healthy</td></tr>
+      </table>
+      <div class="qcard-next">-> <strong>Блок 3</strong> (вопрос 3.1)</div>
+    </div>
+
+
+    <!-- ============================================================ -->
+    <!-- ========== BLOCK 3: OPENNESS (placeholders) ================ -->
+    <!-- ============================================================ -->
+    <div class="group-label" style="left:650px; top:2380px; color:var(--orange);">Блок 3: Раскрепощённость (для всех)</div>
+
+    <div class="placeholder-card qcard-orange" id="q31" style="left:200px; top:2440px;">Этап 4 — Вопрос 3.1<br>{style} &middot; баллы 1/2/4/5</div>
+    <div class="placeholder-card qcard-orange" id="q32" style="left:600px; top:2440px;">Этап 4 — Вопрос 3.2<br>{oral_attitude} &middot; баллы 1/2/4/5/0</div>
+    <div class="placeholder-card qcard-orange" id="q33" style="left:1000px; top:2440px;">Этап 4 — Вопрос 3.3<br>{body_comfort} &middot; баллы 1/2/3/4/5</div>
+    <div class="placeholder-card qcard-orange" id="q34" style="left:1400px; top:2440px;">Этап 4 — Вопрос 3.4<br>{toys_exp} &middot; баллы 0/1/3/4/5</div>
+    <div class="placeholder-card qcard-orange" id="q35" style="left:1800px; top:2440px;">Этап 4 — Вопрос 3.5<br>{communicate_desires} &middot; баллы 1/2/3/4/5</div>
+    <div class="placeholder-card qcard-orange" id="q36" style="left:200px; top:2620px;">Этап 4 — Вопрос 3.6<br>{experiments} &middot; баллы 1/2/3/4/5</div>
+    <div class="placeholder-card qcard-orange" id="q37" style="left:600px; top:2620px;">Этап 4 — Вопрос 3.7<br>{her_initiative} &middot; баллы 1/2/3/5</div>
+    <div class="placeholder-card qcard-orange" id="q38" style="left:1000px; top:2620px;">Этап 4 — Вопрос 3.8<br>{vocal} &middot; баллы 1/2/4/5</div>
+    <div class="placeholder-card qcard-orange" id="q39" style="left:1400px; top:2620px;">Этап 4 — Вопрос 3.9<br>{location} &middot; баллы 1/3/5/5</div>
 
     <!-- Scoring placeholder -->
-    <div class="placeholder-card qcard-orange" id="scoring" style="left:700px; top:2020px; width:700px;">
+    <div class="placeholder-card qcard-orange" id="scoring" style="left:700px; top:2820px; width:700px;">
       Этап 5 — Шкала баллов 0-44<br>
-      {total_score} → {level}: sleeping / awakening / free / fire / goddess
+      {total_score} -> {level}: sleeping / awakening / free / fire / goddess
     </div>
 
     <!-- ========== DECISION 2 ========== -->
-    <div class="decision" id="dec2" style="left:920px; top:2200px;">
+    <div class="decision" id="dec2" style="left:920px; top:3000px;">
       <div class="decision-label">Развилка 2 по {status}</div>
-      <div class="decision-sub">free → 4Б → Результат · ≠free → 4А → 5 → Результат</div>
+      <div class="decision-sub">free -> 4Б -> Результат &middot; !=free -> 4А -> 5 -> Результат</div>
     </div>
 
     <!-- ========== BLOCK 4A ========== -->
-    <div class="group-label" style="left:100px; top:2320px; color:var(--pink);">Блок 4А: Про Него</div>
+    <div class="group-label" style="left:60px; top:3120px; color:var(--pink);">Блок 4А: Про Него</div>
 
-    <div class="placeholder-card qcard-pink" id="q4a1" style="left:200px; top:2360px;">Этап 4 — Вопрос 4А.1<br>{he_desire}</div>
-    <div class="placeholder-card qcard-pink" id="q4a2" style="left:200px; top:2520px;">Этап 4 — Вопрос 4А.2<br>{he_likes}</div>
-    <div class="placeholder-card qcard-pink" id="q4a3" style="left:200px; top:2680px;">Этап 4 — Вопрос 4А.3<br>{he_response}<br>→ Блок 5</div>
+    <div class="placeholder-card qcard-pink" id="q4a1" style="left:100px; top:3160px;">Этап 4 — Вопрос 4А.1<br>{he_desire}</div>
+    <div class="placeholder-card qcard-pink" id="q4a2" style="left:100px; top:3320px;">Этап 4 — Вопрос 4А.2<br>{he_likes}</div>
+    <div class="placeholder-card qcard-pink" id="q4a3" style="left:100px; top:3480px;">Этап 4 — Вопрос 4А.3<br>{he_response}<br>-> Блок 5</div>
 
     <!-- ========== BLOCK 4B ========== -->
-    <div class="group-label" style="left:1350px; top:2320px; color:var(--blue);">Блок 4Б: Про Идеал</div>
+    <div class="group-label" style="left:1350px; top:3120px; color:var(--blue);">Блок 4Б: Про Идеал</div>
 
-    <div class="placeholder-card qcard-blue" id="q4b1" style="left:1400px; top:2360px;">Этап 4 — Вопрос 4Б.1<br>{ideal_type}</div>
-    <div class="placeholder-card qcard-blue" id="q4b2" style="left:1400px; top:2520px;">Этап 4 — Вопрос 4Б.2<br>{ideal_vibe}</div>
-    <div class="placeholder-card qcard-blue" id="q4b3" style="left:1400px; top:2680px;">Этап 4 — Вопрос 4Б.3<br>{ideal_intimacy}<br>→ Результат (блок 5 пропускается)</div>
+    <div class="placeholder-card qcard-blue" id="q4b1" style="left:1400px; top:3160px;">Этап 4 — Вопрос 4Б.1<br>{ideal_type}</div>
+    <div class="placeholder-card qcard-blue" id="q4b2" style="left:1400px; top:3320px;">Этап 4 — Вопрос 4Б.2<br>{ideal_vibe}</div>
+    <div class="placeholder-card qcard-blue" id="q4b3" style="left:1400px; top:3480px;">Этап 4 — Вопрос 4Б.3<br>{ideal_intimacy}<br>-> Результат (блок 5 пропуск)</div>
 
     <!-- ========== BLOCK 5 ========== -->
-    <div class="group-label" style="left:100px; top:2880px; color:var(--pink);">Блок 5: Про Отношения (только в паре)</div>
+    <div class="group-label" style="left:60px; top:3680px; color:var(--pink);">Блок 5: Про Отношения (только в паре)</div>
 
-    <div class="placeholder-card qcard-pink" id="q51" style="left:200px; top:2920px;">Этап 4 — Вопрос 5.1<br>{frequency} · баллы</div>
-    <div class="placeholder-card qcard-pink" id="q52" style="left:600px; top:2920px;">Этап 4 — Вопрос 5.2<br>{initiator}</div>
-    <div class="placeholder-card qcard-pink" id="q53" style="left:200px; top:3080px;">Этап 4 — Вопрос 5.3<br>{cheating}</div>
-    <div class="placeholder-card qcard-pink" id="q54" style="left:600px; top:3080px;">Этап 4 — Вопрос 5.4<br>{main_problem}</div>
-    <div class="placeholder-card qcard-pink" id="q55" style="left:400px; top:3240px;">Этап 4 — Вопрос 5.5<br>{change_wish}<br>→ Результат</div>
+    <div class="placeholder-card qcard-pink" id="q51" style="left:100px; top:3720px;">Этап 4 — Вопрос 5.1<br>{frequency} &middot; баллы</div>
+    <div class="placeholder-card qcard-pink" id="q52" style="left:500px; top:3720px;">Этап 4 — Вопрос 5.2<br>{initiator}</div>
+    <div class="placeholder-card qcard-pink" id="q53" style="left:100px; top:3880px;">Этап 4 — Вопрос 5.3<br>{cheating}</div>
+    <div class="placeholder-card qcard-pink" id="q54" style="left:500px; top:3880px;">Этап 4 — Вопрос 5.4<br>{main_problem}</div>
+    <div class="placeholder-card qcard-pink" id="q55" style="left:300px; top:4040px;">Этап 4 — Вопрос 5.5<br>{change_wish}<br>-> Результат</div>
 
     <!-- ========== RESULTS ========== -->
-    <div class="group-label" style="left:100px; top:3440px; color:var(--green);">Результаты</div>
+    <div class="group-label" style="left:60px; top:4240px; color:var(--green);">Результаты</div>
 
-    <div class="placeholder-card qcard-green" style="left:200px; top:3500px; width:500px;">
+    <div class="placeholder-card qcard-green" style="left:100px; top:4300px; width:500px;">
       Этап 6 — Рекомендации В ПАРЕ: П1-П15<br>
-      15 комбинаций с приоритетом · П15 = fallback
+      15 комбинаций с приоритетом &middot; П15 = fallback
     </div>
 
-    <div class="placeholder-card qcard-green" style="left:1400px; top:3500px; width:500px;">
+    <div class="placeholder-card qcard-green" style="left:1400px; top:4300px; width:500px;">
       Этап 6 — Рекомендации СВОБОДНЫЕ: С1-С15<br>
-      15 комбинаций с приоритетом · С15 = fallback
+      15 комбинаций с приоритетом &middot; С15 = fallback
     </div>
 
     <!-- Variables -->
-    <div class="placeholder-card" style="left:700px; top:3750px; width:700px; border-color: var(--green);">
+    <div class="placeholder-card" style="left:700px; top:4550px; width:700px; border-color: var(--green);">
       Этап 7 — Сводная таблица всех переменных
     </div>
 
@@ -566,76 +712,106 @@ function jumpTo(x, y) {
 }
 
 // === DRAW ARROWS ===
-function line(x1,y1,x2,y2,color,marker) {
+// Smooth curve using midpoint control points (no tight S-loops)
+function line(x1, y1, x2, y2, color, marker) {
   const svg = document.getElementById('svg');
-  const dy = y2-y1, dx = x2-x1;
   const p = document.createElementNS('http://www.w3.org/2000/svg','path');
-  // smooth vertical bezier
-  const cy1 = y1 + dy*0.4, cy2 = y2 - dy*0.4;
-  p.setAttribute('d',`M${x1},${y1} C${x1},${cy1} ${x2},${cy2} ${x2},${y2}`);
+  const my = (y1 + y2) / 2;
+  p.setAttribute('d', `M${x1},${y1} C${x1},${my} ${x2},${my} ${x2},${y2}`);
   p.setAttribute('stroke', color);
-  p.setAttribute('stroke-width','2');
-  p.setAttribute('fill','none');
-  p.setAttribute('stroke-opacity','0.5');
-  p.setAttribute('marker-end',`url(#${marker})`);
+  p.setAttribute('stroke-width', '2');
+  p.setAttribute('fill', 'none');
+  p.setAttribute('stroke-opacity', '0.5');
+  p.setAttribute('marker-end', `url(#${marker})`);
+  svg.appendChild(p);
+}
+
+// Horizontal-then-vertical stepped path
+function stepLine(x1, y1, x2, y2, color, marker) {
+  const svg = document.getElementById('svg');
+  const p = document.createElementNS('http://www.w3.org/2000/svg','path');
+  const my = (y1 + y2) / 2;
+  p.setAttribute('d', `M${x1},${y1} L${x1},${my} L${x2},${my} L${x2},${y2}`);
+  p.setAttribute('stroke', color);
+  p.setAttribute('stroke-width', '2');
+  p.setAttribute('fill', 'none');
+  p.setAttribute('stroke-opacity', '0.4');
+  p.setAttribute('marker-end', `url(#${marker})`);
   svg.appendChild(p);
 }
 
 function getBot(id) { const e=document.getElementById(id); if(!e)return null; return { x:parseInt(e.style.left)+e.offsetWidth/2, y:parseInt(e.style.top)+e.offsetHeight }; }
 function getTop(id) { const e=document.getElementById(id); if(!e)return null; return { x:parseInt(e.style.left)+e.offsetWidth/2, y:parseInt(e.style.top) }; }
+function getRight(id) { const e=document.getElementById(id); if(!e)return null; return { x:parseInt(e.style.left)+e.offsetWidth, y:parseInt(e.style.top)+e.offsetHeight/2 }; }
+function getLeft(id) { const e=document.getElementById(id); if(!e)return null; return { x:parseInt(e.style.left), y:parseInt(e.style.top)+e.offsetHeight/2 }; }
 
 function drawArrows() {
   const svg = document.getElementById('svg');
   svg.querySelectorAll('path').forEach(p=>p.remove());
 
-  // Block 1 flow
+  // ===== BLOCK 1 =====
+  // 1.1 -> 1.1б (left fork)
   const q11b = getBot('q11'), q11bT = getTop('q11b'), q12T = getTop('q12');
-  const q13T = getTop('q13');
-  if(q11b && q11bT) line(q11b.x-80, q11b.y, q11bT.x, q11bT.y, '#6b9dff','ab');
-  if(q11b && q12T) line(q11b.x+80, q11b.y, q12T.x, q12T.y, '#ff6b9d','ak');
+  if(q11b && q11bT) line(q11b.x - 60, q11b.y, q11bT.x, q11bT.y, '#6b9dff','ab');
+  // 1.1 -> 1.2 (right fork)
+  if(q11b && q12T) line(q11b.x + 60, q11b.y, q12T.x, q12T.y, '#ff6b9d','ak');
 
-  // 1.1б → 1.3, 1.2 → 1.3
-  const q11bb = getBot('q11b'), q12b = getBot('q12');
-  if(q11bb && q13T) line(q11bb.x, q11bb.y, q13T.x-40, q13T.y, '#a06bff','ap');
-  if(q12b && q13T) line(q12b.x, q12b.y, q13T.x+40, q13T.y, '#a06bff','ap');
+  // 1.1б -> 1.3
+  const q11bb = getBot('q11b'), q13T = getTop('q13');
+  if(q11bb && q13T) line(q11bb.x, q11bb.y, q13T.x - 60, q13T.y, '#a06bff','ap');
+  // 1.2 -> 1.3
+  const q12b = getBot('q12');
+  if(q12b && q13T) line(q12b.x, q12b.y, q13T.x + 60, q13T.y, '#a06bff','ap');
 
-  // 1.3 → Decision
+  // 1.3 -> Decision 1
   const q13b = getBot('q13'), d1t = getTop('dec1');
   if(q13b && d1t) line(q13b.x, q13b.y, d1t.x, d1t.y, '#a06bff','ap');
 
-  // Decision → 2A.1, 2B.1
+  // Decision 1 -> 2A.1, 2B.1
   const d1b = getBot('dec1'), q2a1t = getTop('q2a1'), q2b1t = getTop('q2b1');
-  if(d1b && q2a1t) line(d1b.x-60, d1b.y, q2a1t.x, q2a1t.y, '#ff6b9d','ak');
-  if(d1b && q2b1t) line(d1b.x+60, d1b.y, q2b1t.x, q2b1t.y, '#6b9dff','ab');
+  if(d1b && q2a1t) line(d1b.x - 80, d1b.y, q2a1t.x, q2a1t.y, '#ff6b9d','ak');
+  if(d1b && q2b1t) line(d1b.x + 80, d1b.y, q2b1t.x, q2b1t.y, '#6b9dff','ab');
 
-  // 2A chain
-  const pairs2a = [['q2a1','q2a2'],['q2a2','q2a3']];
-  pairs2a.forEach(([a,b]) => { const f=getBot(a),t=getTop(b); if(f&&t) line(f.x,f.y,t.x,t.y,'#ff6b9d','ak'); });
+  // ===== BLOCK 2A chain =====
+  [['q2a1','q2a2'],['q2a2','q2a3']].forEach(([a,b]) => {
+    const f=getBot(a), t=getTop(b);
+    if(f&&t) line(f.x, f.y, t.x, t.y, '#ff6b9d','ak');
+  });
 
-  // 2B chain
-  const pairs2b = [['q2b1','q2b2'],['q2b2','q2b3'],['q2b4','q2b5'],['q2b5','q2b6']];
-  pairs2b.forEach(([a,b]) => { const f=getBot(a),t=getTop(b); if(f&&t) line(f.x,f.y,t.x,t.y,'#6b9dff','ab'); });
-  // 2b3 → 2b4 horizontal-ish
-  const b3b=getBot('q2b3'), b4t=getTop('q2b4');
-  if(b3b&&b4t) line(b3b.x+100,b3b.y-50,b4t.x,b4t.y,'#6b9dff','ab');
+  // ===== BLOCK 2B chains =====
+  // Left column: 2B.1 -> 2B.2 -> 2B.3
+  [['q2b1','q2b2'],['q2b2','q2b3']].forEach(([a,b]) => {
+    const f=getBot(a), t=getTop(b);
+    if(f&&t) line(f.x, f.y, t.x, t.y, '#6b9dff','ab');
+  });
+  // Right column: 2B.4 -> 2B.5 -> 2B.6
+  [['q2b4','q2b5'],['q2b5','q2b6']].forEach(([a,b]) => {
+    const f=getBot(a), t=getTop(b);
+    if(f&&t) line(f.x, f.y, t.x, t.y, '#6b9dff','ab');
+  });
+  // Cross: 2B.3 -> 2B.4 (step path right->up)
+  const b3r = getRight('q2b3'), b4l = getLeft('q2b4');
+  if(b3r && b4l) stepLine(b3r.x, b3r.y, b4l.x, b4l.y, '#6b9dff','ab');
 
-  // 2A.3 → Block 3, 2B.6 → Block 3
-  const q2a3b=getBot('q2a3'), q2b6b=getBot('q2b6'), q31t=getTop('q31'), q39t=getTop(window.innerWidth>600?'q33':'q31');
-  if(q2a3b && q31t) line(q2a3b.x,q2a3b.y,q31t.x,q31t.y,'#ff6b9d','ak');
-  if(q2b6b && q39t) line(q2b6b.x,q2b6b.y,q39t.x+200,q39t.y,'#6b9dff','ab');
+  // ===== 2A.3 -> Block 3, 2B.6 -> Block 3 =====
+  const q2a3b = getBot('q2a3'), q31t = getTop('q31');
+  if(q2a3b && q31t) line(q2a3b.x, q2a3b.y, q31t.x, q31t.y, '#ff6b9d','ak');
 
-  // Block 3 grid → scoring
-  const q39b=getBot('q39'), sct=getTop('scoring');
-  if(q39b&&sct) line(q39b.x,q39b.y,sct.x,sct.y,'#ffaa6b','ao');
+  const q2b6b = getBot('q2b6'), q34t = getTop('q34');
+  if(q2b6b && q34t) line(q2b6b.x, q2b6b.y, q34t.x, q34t.y, '#6b9dff','ab');
 
-  // scoring → decision2
-  const scb=getBot('scoring'), d2t=getTop('dec2');
-  if(scb&&d2t) line(scb.x,scb.y,d2t.x,d2t.y,'#ffaa6b','ao');
+  // ===== Block 3 -> scoring =====
+  const q39b = getBot('q39'), sct = getTop('scoring');
+  if(q39b && sct) line(q39b.x, q39b.y, sct.x, sct.y, '#ffaa6b','ao');
 
-  // decision2 → 4A, 4B
-  const d2b=getBot('dec2'), q4a1t=getTop('q4a1'), q4b1t=getTop('q4b1');
-  if(d2b&&q4a1t) line(d2b.x-60,d2b.y,q4a1t.x,q4a1t.y,'#ff6b9d','ak');
-  if(d2b&&q4b1t) line(d2b.x+60,d2b.y,q4b1t.x,q4b1t.y,'#6b9dff','ab');
+  // scoring -> decision2
+  const scb = getBot('scoring'), d2t = getTop('dec2');
+  if(scb && d2t) line(scb.x, scb.y, d2t.x, d2t.y, '#ffaa6b','ao');
+
+  // decision2 -> 4A, 4B
+  const d2b = getBot('dec2'), q4a1t = getTop('q4a1'), q4b1t = getTop('q4b1');
+  if(d2b && q4a1t) line(d2b.x - 80, d2b.y, q4a1t.x, q4a1t.y, '#ff6b9d','ak');
+  if(d2b && q4b1t) line(d2b.x + 80, d2b.y, q4b1t.x, q4b1t.y, '#6b9dff','ab');
 
   // 4A chain
   [['q4a1','q4a2'],['q4a2','q4a3']].forEach(([a,b])=>{const f=getBot(a),t=getTop(b);if(f&&t)line(f.x,f.y,t.x,t.y,'#ff6b9d','ak');});
@@ -643,7 +819,7 @@ function drawArrows() {
   // 4B chain
   [['q4b1','q4b2'],['q4b2','q4b3']].forEach(([a,b])=>{const f=getBot(a),t=getTop(b);if(f&&t)line(f.x,f.y,t.x,t.y,'#6b9dff','ab');});
 
-  // 4A.3 → 5.1
+  // 4A.3 -> 5.1
   const q4a3b=getBot('q4a3'), q51t=getTop('q51');
   if(q4a3b&&q51t) line(q4a3b.x,q4a3b.y,q51t.x,q51t.y,'#ff6b9d','ak');
 
@@ -657,7 +833,7 @@ function drawArrows() {
 function updateMM() {
   const mc=document.getElementById('mmCanvas'), ctx=mc.getContext('2d');
   ctx.clearRect(0,0,mc.width,mc.height);
-  const bw=2200, bh=4000, s=Math.min(mc.width/bw, mc.height/bh);
+  const bw=2400, bh=5000, s=Math.min(mc.width/bw, mc.height/bh);
   document.querySelectorAll('.qcard,.placeholder-card,.decision').forEach(n=>{
     const x=parseInt(n.style.left)*s, y=parseInt(n.style.top)*s;
     const w=(n.offsetWidth||340)*s, h=(n.offsetHeight||100)*s;

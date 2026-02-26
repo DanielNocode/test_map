@@ -1143,14 +1143,30 @@ function drawArrows() {
   const b3r = getRight('q2b3'), b4l = getLeft('q2b4');
   if(b3r && b4l) stepLine(b3r.x, b3r.y, b4l.x, b4l.y, '#6b9dff','ab');
 
-  // ===== 2A.3 -> Block 3, 2B.6 -> Block 3 =====
+  // ===== 2A.3 -> Block 3 (first card), 2B.6 -> Block 3 =====
   const q2a3b = getBot('q2a3'), q31t = getTop('q31');
   if(q2a3b && q31t) line(q2a3b.x, q2a3b.y, q31t.x, q31t.y, '#ff6b9d','ak');
 
-  const q2b6b = getBot('q2b6'), q34t = getTop('q34');
-  if(q2b6b && q34t) line(q2b6b.x, q2b6b.y, q34t.x, q34t.y, '#6b9dff','ab');
+  const q2b6b = getBot('q2b6');
+  if(q2b6b && q31t) line(q2b6b.x, q2b6b.y, q31t.x + 80, q31t.y, '#6b9dff','ab');
 
-  // ===== Block 3 -> scoring =====
+  // ===== BLOCK 3 GRID: Row 1 horizontal (3.1->3.2->3.3->3.4->3.5) =====
+  [['q31','q32'],['q32','q33'],['q33','q34'],['q34','q35']].forEach(([a,b]) => {
+    const f=getRight(a), t=getLeft(b);
+    if(f&&t) line(f.x, f.y, t.x, t.y, '#ffaa6b','ao');
+  });
+
+  // Row 1 -> Row 2 wrap: 3.5 -> 3.6 (down-left diagonal)
+  const q35b = getBot('q35'), q36t = getTop('q36');
+  if(q35b && q36t) line(q35b.x, q35b.y, q36t.x, q36t.y, '#ffaa6b','ao');
+
+  // Row 2 horizontal (3.6->3.7->3.8->3.9)
+  [['q36','q37'],['q37','q38'],['q38','q39']].forEach(([a,b]) => {
+    const f=getRight(a), t=getLeft(b);
+    if(f&&t) line(f.x, f.y, t.x, t.y, '#ffaa6b','ao');
+  });
+
+  // ===== Block 3 last card -> scoring =====
   const q39b = getBot('q39'), sct = getTop('scoring');
   if(q39b && sct) line(q39b.x, q39b.y, sct.x, sct.y, '#ffaa6b','ao');
 
@@ -1158,25 +1174,43 @@ function drawArrows() {
   const scb = getBot('scoring'), d2t = getTop('dec2');
   if(scb && d2t) line(scb.x, scb.y, d2t.x, d2t.y, '#ffaa6b','ao');
 
-  // decision2 -> 4A, 4B
+  // ===== decision2 -> 4A, 4B =====
   const d2b = getBot('dec2'), q4a1t = getTop('q4a1'), q4b1t = getTop('q4b1');
   if(d2b && q4a1t) line(d2b.x - 80, d2b.y, q4a1t.x, q4a1t.y, '#ff6b9d','ak');
   if(d2b && q4b1t) line(d2b.x + 80, d2b.y, q4b1t.x, q4b1t.y, '#6b9dff','ab');
 
-  // 4A chain
-  [['q4a1','q4a2'],['q4a2','q4a3']].forEach(([a,b])=>{const f=getBot(a),t=getTop(b);if(f&&t)line(f.x,f.y,t.x,t.y,'#ff6b9d','ak');});
+  // ===== 4A chain: 4A.1->4A.2->4A.3 =====
+  [['q4a1','q4a2'],['q4a2','q4a3']].forEach(([a,b])=>{
+    const f=getBot(a),t=getTop(b);
+    if(f&&t) line(f.x,f.y,t.x,t.y,'#ff6b9d','ak');
+  });
 
-  // 4B chain
-  [['q4b1','q4b2'],['q4b2','q4b3']].forEach(([a,b])=>{const f=getBot(a),t=getTop(b);if(f&&t)line(f.x,f.y,t.x,t.y,'#6b9dff','ab');});
+  // ===== 4B chain: 4B.1->4B.2->4B.3 =====
+  [['q4b1','q4b2'],['q4b2','q4b3']].forEach(([a,b])=>{
+    const f=getBot(a),t=getTop(b);
+    if(f&&t) line(f.x,f.y,t.x,t.y,'#6b9dff','ab');
+  });
 
-  // 4A.3 -> 5.1
+  // ===== 4A.3 -> Block 5.1 =====
   const q4a3b=getBot('q4a3'), q51t=getTop('q51');
   if(q4a3b&&q51t) line(q4a3b.x,q4a3b.y,q51t.x,q51t.y,'#ff6b9d','ak');
 
-  // Block 5 chain
-  [['q51','q53'],['q52','q54']].forEach(([a,b])=>{const f=getBot(a),t=getTop(b);if(f&&t)line(f.x,f.y,t.x,t.y,'#ff6b9d','ak');});
-  const q53b=getBot('q53'),q55t=getTop('q55');
-  if(q53b&&q55t) line(q53b.x,q53b.y,q55t.x,q55t.y,'#ff6b9d','ak');
+  // ===== BLOCK 5 CHAIN: 5.1->5.2 (right), 5.2->5.3 (down-left), 5.3->5.4 (right), 5.4->5.5 (down) =====
+  // 5.1 -> 5.2 horizontal
+  const q51r=getRight('q51'), q52l=getLeft('q52');
+  if(q51r&&q52l) line(q51r.x,q51r.y,q52l.x,q52l.y,'#ff6b9d','ak');
+
+  // 5.2 -> 5.3 wrap to next row
+  const q52b=getBot('q52'), q53t=getTop('q53');
+  if(q52b&&q53t) line(q52b.x,q52b.y,q53t.x,q53t.y,'#ff6b9d','ak');
+
+  // 5.3 -> 5.4 horizontal
+  const q53r=getRight('q53'), q54l=getLeft('q54');
+  if(q53r&&q54l) line(q53r.x,q53r.y,q54l.x,q54l.y,'#ff6b9d','ak');
+
+  // 5.4 -> 5.5 down
+  const q54b=getBot('q54'), q55t=getTop('q55');
+  if(q54b&&q55t) line(q54b.x,q54b.y,q55t.x,q55t.y,'#ff6b9d','ak');
 }
 
 // === MINIMAP ===

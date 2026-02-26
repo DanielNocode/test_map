@@ -5,38 +5,31 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Карта Идеальных Отношений — Схема квиза v2.0</title>
 <style>
-/* ===== RESET ===== */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
   --bg: #0d0d1a;
   --bg-board: #111122;
-  --bg-card: #1a1a2e;
-  --bg-card-hover: #222240;
+  --card-bg: #1a1a2e;
+  --card-bg2: #1e1e36;
   --border: #2a2a4a;
   --text: #d0d0e8;
   --text-dim: #7777aa;
   --text-bright: #ffffff;
   --pink: #ff6b9d;
-  --pink-bg: rgba(255,107,157,0.12);
+  --pink-bg: rgba(255,107,157,0.10);
   --blue: #6b9dff;
-  --blue-bg: rgba(107,157,255,0.12);
+  --blue-bg: rgba(107,157,255,0.10);
   --purple: #a06bff;
-  --purple-bg: rgba(160,107,255,0.12);
+  --purple-bg: rgba(160,107,255,0.10);
   --orange: #ffaa6b;
-  --orange-bg: rgba(255,170,107,0.12);
+  --orange-bg: rgba(255,170,107,0.10);
   --green: #6bffb8;
-  --green-bg: rgba(107,255,184,0.12);
+  --green-bg: rgba(107,255,184,0.10);
   --yellow: #ffd76b;
-  --yellow-bg: rgba(255,215,107,0.12);
-  --red: #ff6b6b;
-  --shadow: 0 4px 24px rgba(0,0,0,0.5);
-  --shadow-glow-pink: 0 0 20px rgba(255,107,157,0.15);
-  --shadow-glow-blue: 0 0 20px rgba(107,157,255,0.15);
-  --shadow-glow-purple: 0 0 20px rgba(160,107,255,0.15);
+  --yellow-bg: rgba(255,215,107,0.10);
 }
 
-html { scroll-behavior: smooth; }
 body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   background: var(--bg);
@@ -44,797 +37,648 @@ body {
   line-height: 1.5;
   overflow: hidden;
   height: 100vh;
+  user-select: text;
 }
 
 /* ===== TOOLBAR ===== */
 .toolbar {
   position: fixed;
   top: 0; left: 0; right: 0;
-  height: 48px;
-  background: linear-gradient(135deg, #1a1a2e, #2d1b4e);
+  height: 44px;
+  background: rgba(13,13,26,0.95);
+  backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border);
   display: flex;
   align-items: center;
-  padding: 0 20px;
+  padding: 0 16px;
   z-index: 1000;
-  gap: 16px;
+  gap: 12px;
 }
-
-.toolbar-title {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--text-bright);
-  white-space: nowrap;
-}
-
-.toolbar-subtitle {
-  font-size: 11px;
-  color: var(--text-dim);
-  margin-left: -8px;
-}
-
-.toolbar-sep {
-  width: 1px;
-  height: 24px;
-  background: var(--border);
-}
-
-.toolbar-zoom {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-left: auto;
-}
-
-.toolbar-zoom span {
-  font-size: 12px;
-  color: var(--text-dim);
-  min-width: 40px;
-  text-align: center;
-}
-
-.btn {
-  padding: 4px 12px;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  color: var(--text);
-  font-size: 12px;
-  cursor: pointer;
-  transition: 0.2s;
-}
-.btn:hover { background: rgba(255,255,255,0.12); color: var(--text-bright); }
-
-.toolbar-nav {
-  display: flex;
-  gap: 4px;
-}
-
-.nav-chip {
-  padding: 4px 10px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid transparent;
-  border-radius: 12px;
-  color: var(--text-dim);
-  font-size: 11px;
-  cursor: pointer;
-  transition: 0.2s;
-  white-space: nowrap;
-}
-.nav-chip:hover { color: var(--text-bright); border-color: var(--border); background: rgba(255,255,255,0.08); }
-.nav-chip.active { color: var(--purple); border-color: var(--purple); background: var(--purple-bg); }
+.toolbar-title { font-size: 14px; font-weight: 700; color: var(--text-bright); white-space: nowrap; }
+.toolbar-sub { font-size: 11px; color: var(--text-dim); }
+.toolbar-sep { width: 1px; height: 20px; background: var(--border); }
+.toolbar-nav { display: flex; gap: 3px; flex-wrap: nowrap; overflow-x: auto; }
+.chip { padding: 3px 10px; border-radius: 10px; font-size: 11px; cursor: pointer; border: 1px solid transparent; color: var(--text-dim); transition: 0.2s; white-space: nowrap; }
+.chip:hover { color: var(--text-bright); background: rgba(255,255,255,0.06); }
+.chip-pink { border-color: rgba(255,107,157,0.3); color: var(--pink); }
+.chip-blue { border-color: rgba(107,157,255,0.3); color: var(--blue); }
+.chip-purple { border-color: rgba(160,107,255,0.3); color: var(--purple); }
+.chip-orange { border-color: rgba(255,170,107,0.3); color: var(--orange); }
+.chip-green { border-color: rgba(107,255,184,0.3); color: var(--green); }
+.zoom-controls { display: flex; align-items: center; gap: 5px; margin-left: auto; }
+.zoom-controls span { font-size: 11px; color: var(--text-dim); min-width: 36px; text-align: center; }
+.tbtn { padding: 3px 10px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 5px; color: var(--text); font-size: 12px; cursor: pointer; }
+.tbtn:hover { background: rgba(255,255,255,0.1); }
 
 /* ===== CANVAS ===== */
 .canvas-wrap {
   position: fixed;
-  top: 48px; left: 0; right: 0; bottom: 0;
+  top: 44px; left: 0; right: 0; bottom: 0;
   overflow: hidden;
   cursor: grab;
-  background:
-    radial-gradient(circle at 50% 50%, rgba(160,107,255,0.03) 0%, transparent 70%),
-    var(--bg-board);
+  background: var(--bg-board);
 }
-
-.canvas-wrap:active { cursor: grabbing; }
-
+.canvas-wrap.panning { cursor: grabbing; }
 .canvas-grid {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background-image:
-    radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
-  background-size: 30px 30px;
+  position: absolute; inset: 0;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size: 28px 28px;
   pointer-events: none;
 }
-
 .canvas {
   position: absolute;
   transform-origin: 0 0;
   will-change: transform;
 }
 
-/* ===== SVG ARROWS ===== */
-.arrows-layer {
+/* ===== SVG ===== */
+.arrows-svg {
+  position: absolute; top: 0; left: 0;
+  pointer-events: none; overflow: visible;
+}
+
+/* ===== QUESTION CARD ===== */
+.qcard {
   position: absolute;
-  top: 0; left: 0;
-  pointer-events: none;
-  overflow: visible;
-}
-
-/* ===== NODES ===== */
-.node {
-  position: absolute;
+  width: 340px;
+  background: var(--card-bg);
+  border: 1.5px solid var(--border);
   border-radius: 14px;
-  padding: 16px 20px;
-  text-align: center;
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
-  user-select: none;
-  min-width: 180px;
-}
-
-.node:hover {
-  transform: translateY(-2px);
-  z-index: 10;
-}
-
-.node-label {
-  font-weight: 700;
-  font-size: 14px;
-  margin-bottom: 4px;
-}
-
-.node-sub {
-  font-size: 11px;
-  opacity: 0.7;
-}
-
-.node-badge {
-  display: inline-block;
-  padding: 2px 8px;
-  border-radius: 8px;
-  font-size: 10px;
-  font-weight: 600;
-  margin-top: 6px;
-}
-
-/* Node types */
-.node-purple {
-  background: linear-gradient(145deg, #2a1f50, #1e1840);
-  border: 2px solid var(--purple);
-  color: var(--text-bright);
-  box-shadow: var(--shadow), var(--shadow-glow-purple);
-}
-
-.node-pink {
-  background: linear-gradient(145deg, #3a1a30, #2e1528);
-  border: 2px solid var(--pink);
-  color: var(--pink);
-  box-shadow: var(--shadow), var(--shadow-glow-pink);
-}
-
-.node-blue {
-  background: linear-gradient(145deg, #1a2540, #152035);
-  border: 2px solid var(--blue);
-  color: var(--blue);
-  box-shadow: var(--shadow), var(--shadow-glow-blue);
-}
-
-.node-orange {
-  background: linear-gradient(145deg, #302818, #282015);
-  border: 2px solid var(--orange);
-  color: var(--orange);
-  box-shadow: var(--shadow), 0 0 20px rgba(255,170,107,0.12);
-}
-
-.node-green {
-  background: linear-gradient(145deg, #18302a, #152822);
-  border: 2px solid var(--green);
-  color: var(--green);
-  box-shadow: var(--shadow), 0 0 20px rgba(107,255,184,0.12);
-}
-
-.node-diamond {
-  min-width: 160px;
-  border-radius: 14px;
-  border-style: dashed;
-}
-
-/* ===== DETAIL PANEL (popup on click) ===== */
-.detail-overlay {
-  display: none;
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.6);
-  z-index: 2000;
-  backdrop-filter: blur(4px);
-}
-.detail-overlay.open { display: flex; align-items: center; justify-content: center; }
-
-.detail-panel {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  max-width: 700px;
-  width: 90%;
-  max-height: 80vh;
-  overflow-y: auto;
-  padding: 28px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.8);
-}
-
-.detail-panel::-webkit-scrollbar { width: 6px; }
-.detail-panel::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-
-.detail-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
-}
-
-.detail-title {
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--text-bright);
-}
-
-.detail-close {
-  width: 32px; height: 32px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  background: rgba(255,255,255,0.04);
-  color: var(--text-dim);
-  font-size: 18px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: 0.2s;
-}
-.detail-close:hover { background: rgba(255,255,255,0.1); color: var(--text-bright); }
-
-.detail-body { color: var(--text); font-size: 14px; }
-.detail-body .placeholder {
-  text-align: center;
-  padding: 40px 20px;
-  color: var(--text-dim);
-  font-style: italic;
-}
-
-/* ===== MINIMAP ===== */
-.minimap {
-  position: fixed;
-  bottom: 16px;
-  right: 16px;
-  width: 200px;
-  height: 140px;
-  background: rgba(17,17,34,0.9);
-  border: 1px solid var(--border);
-  border-radius: 10px;
   overflow: hidden;
-  z-index: 500;
-  box-shadow: var(--shadow);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+  transition: box-shadow 0.2s;
+}
+.qcard:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.7); }
+
+.qcard-head {
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid var(--border);
+}
+.qcard-num {
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+.qcard-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-bright);
+  flex: 1;
+}
+.qcard-var {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: var(--green-bg);
+  color: var(--green);
 }
 
-.minimap-canvas {
+.qcard-msg {
+  padding: 10px 16px;
+  font-size: 12px;
+  color: var(--text-dim);
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  white-space: pre-line;
+  line-height: 1.6;
+}
+
+.qcard-table {
   width: 100%;
-  height: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+}
+.qcard-table th {
+  text-align: left;
+  padding: 6px 12px;
+  background: rgba(255,255,255,0.02);
+  color: var(--text-dim);
+  font-weight: 600;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+.qcard-table td {
+  padding: 5px 12px;
+  border-top: 1px solid rgba(255,255,255,0.025);
+}
+.qcard-table tr:hover td { background: rgba(255,255,255,0.015); }
+.v { color: var(--green); font-family: monospace; font-size: 11px; }
+.p { color: var(--yellow); font-weight: 700; }
+.b { display: inline-block; padding: 1px 8px; background: var(--purple-bg); border-radius: 4px; color: var(--purple); font-weight: 700; font-size: 11px; }
+
+.qcard-next {
+  padding: 8px 16px;
+  font-size: 11px;
+  border-top: 1px solid rgba(255,255,255,0.03);
+  color: var(--text-dim);
+}
+.qcard-next strong { color: var(--purple); }
+.next-pink { color: var(--pink); }
+.next-blue { color: var(--blue); }
+
+/* Card border colors */
+.qcard-purple { border-color: rgba(160,107,255,0.4); }
+.qcard-purple .qcard-head { background: var(--purple-bg); }
+.qcard-purple .qcard-num { background: var(--purple-bg); color: var(--purple); }
+
+.qcard-pink { border-color: rgba(255,107,157,0.4); }
+.qcard-pink .qcard-head { background: var(--pink-bg); }
+.qcard-pink .qcard-num { background: var(--pink-bg); color: var(--pink); }
+
+.qcard-blue { border-color: rgba(107,157,255,0.4); }
+.qcard-blue .qcard-head { background: var(--blue-bg); }
+.qcard-blue .qcard-num { background: var(--blue-bg); color: var(--blue); }
+
+.qcard-orange { border-color: rgba(255,170,107,0.4); }
+.qcard-orange .qcard-head { background: var(--orange-bg); }
+.qcard-orange .qcard-num { background: var(--orange-bg); color: var(--orange); }
+
+.qcard-green { border-color: rgba(107,255,184,0.4); }
+.qcard-green .qcard-head { background: var(--green-bg); }
+.qcard-green .qcard-num { background: var(--green-bg); color: var(--green); }
+
+/* ===== GROUP LABEL ===== */
+.group-label {
+  position: absolute;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  opacity: 0.15;
+  pointer-events: none;
+  text-transform: uppercase;
 }
 
-.minimap-viewport {
+/* ===== BRANCH LABEL ===== */
+.branch-tag {
   position: absolute;
-  border: 1.5px solid var(--purple);
-  background: rgba(160,107,255,0.08);
-  border-radius: 2px;
-  pointer-events: none;
+  padding: 4px 14px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 700;
 }
+
+/* ===== DECISION NODE ===== */
+.decision {
+  position: absolute;
+  background: var(--card-bg);
+  border: 2px dashed var(--purple);
+  border-radius: 14px;
+  padding: 14px 24px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+.decision-label { font-size: 14px; font-weight: 700; color: var(--text-bright); }
+.decision-sub { font-size: 11px; color: var(--text-dim); margin-top: 2px; }
 
 /* ===== LEGEND ===== */
 .legend {
-  position: fixed;
-  bottom: 16px;
-  left: 16px;
-  background: rgba(17,17,34,0.9);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 12px 16px;
-  z-index: 500;
-  box-shadow: var(--shadow);
-  font-size: 11px;
+  position: fixed; bottom: 12px; left: 12px;
+  background: rgba(13,13,26,0.92); backdrop-filter: blur(8px);
+  border: 1px solid var(--border); border-radius: 10px;
+  padding: 10px 14px; z-index: 500; font-size: 11px;
 }
+.legend-row { display: flex; align-items: center; gap: 7px; margin-bottom: 3px; }
+.legend-row:last-child { margin-bottom: 0; }
+.legend-dot { width: 10px; height: 10px; border-radius: 3px; }
 
-.legend-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 4px;
+/* ===== MINIMAP ===== */
+.minimap {
+  position: fixed; bottom: 12px; right: 12px;
+  width: 180px; height: 120px;
+  background: rgba(13,13,26,0.92); backdrop-filter: blur(8px);
+  border: 1px solid var(--border); border-radius: 10px;
+  overflow: hidden; z-index: 500;
 }
-.legend-item:last-child { margin-bottom: 0; }
+.minimap canvas { width: 100%; height: 100%; }
+.minimap-vp { position: absolute; border: 1.5px solid var(--purple); background: rgba(160,107,255,0.06); border-radius: 2px; pointer-events: none; }
 
-.legend-dot {
-  width: 10px; height: 10px;
-  border-radius: 3px;
-  flex-shrink: 0;
+/* ===== PLACEHOLDER ===== */
+.placeholder-card {
+  position: absolute;
+  width: 340px;
+  background: var(--card-bg);
+  border: 1.5px dashed var(--border);
+  border-radius: 14px;
+  padding: 30px 20px;
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 13px;
+  font-style: italic;
+  opacity: 0.6;
 }
 </style>
 </head>
 <body>
 
-<!-- ===== TOOLBAR ===== -->
+<!-- TOOLBAR -->
 <div class="toolbar">
   <div class="toolbar-title">Карта Идеальных Отношений</div>
-  <div class="toolbar-subtitle">v2.0 · Схема</div>
+  <div class="toolbar-sub">v2.0</div>
   <div class="toolbar-sep"></div>
   <div class="toolbar-nav">
-    <div class="nav-chip active" onclick="focusNode('block1')">Блок 1</div>
-    <div class="nav-chip" onclick="focusNode('block2a')">2А</div>
-    <div class="nav-chip" onclick="focusNode('block2b')">2Б</div>
-    <div class="nav-chip" onclick="focusNode('block3')">Блок 3</div>
-    <div class="nav-chip" onclick="focusNode('block4a')">4А</div>
-    <div class="nav-chip" onclick="focusNode('block4b')">4Б</div>
-    <div class="nav-chip" onclick="focusNode('block5')">Блок 5</div>
-    <div class="nav-chip" onclick="focusNode('result')">Результат</div>
+    <div class="chip chip-purple" onclick="jumpTo(880,60)">Блок 1</div>
+    <div class="chip chip-pink" onclick="jumpTo(200,750)">2А</div>
+    <div class="chip chip-blue" onclick="jumpTo(1400,750)">2Б</div>
+    <div class="chip chip-orange" onclick="jumpTo(600,1700)">Блок 3</div>
+    <div class="chip chip-pink" onclick="jumpTo(200,3200)">4А</div>
+    <div class="chip chip-blue" onclick="jumpTo(1400,3200)">4Б</div>
+    <div class="chip chip-pink" onclick="jumpTo(200,3900)">Блок 5</div>
+    <div class="chip chip-green" onclick="jumpTo(800,5200)">Результат</div>
   </div>
-  <div class="toolbar-zoom">
-    <button class="btn" onclick="zoomBy(-0.15)">−</button>
-    <span id="zoomLevel">100%</span>
-    <button class="btn" onclick="zoomBy(0.15)">+</button>
-    <button class="btn" onclick="resetView()">Сброс</button>
+  <div class="zoom-controls">
+    <button class="tbtn" onclick="zoomBy(-0.1)">−</button>
+    <span id="zoomLvl">70%</span>
+    <button class="tbtn" onclick="zoomBy(0.1)">+</button>
+    <button class="tbtn" onclick="resetView()">Fit</button>
   </div>
 </div>
 
-<!-- ===== CANVAS ===== -->
-<div class="canvas-wrap" id="canvasWrap">
+<!-- CANVAS -->
+<div class="canvas-wrap" id="wrap">
   <div class="canvas-grid"></div>
   <div class="canvas" id="canvas">
 
-    <!-- SVG arrows layer -->
-    <svg class="arrows-layer" id="arrowsSvg" width="2000" height="1800">
+    <!-- SVG arrows -->
+    <svg class="arrows-svg" id="svg" width="2200" height="6000">
       <defs>
-        <marker id="arrow-purple" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-          <polygon points="0 0, 10 3.5, 0 7" fill="#a06bff" />
-        </marker>
-        <marker id="arrow-pink" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-          <polygon points="0 0, 10 3.5, 0 7" fill="#ff6b9d" />
-        </marker>
-        <marker id="arrow-blue" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-          <polygon points="0 0, 10 3.5, 0 7" fill="#6b9dff" />
-        </marker>
-        <marker id="arrow-orange" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-          <polygon points="0 0, 10 3.5, 0 7" fill="#ffaa6b" />
-        </marker>
-        <marker id="arrow-green" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-          <polygon points="0 0, 10 3.5, 0 7" fill="#6bffb8" />
-        </marker>
+        <marker id="ap" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#a06bff"/></marker>
+        <marker id="ak" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#ff6b9d"/></marker>
+        <marker id="ab" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#6b9dff"/></marker>
+        <marker id="ao" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#ffaa6b"/></marker>
+        <marker id="ag" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#6bffb8"/></marker>
       </defs>
-      <!-- Arrows will be drawn by JS -->
     </svg>
 
-    <!-- === NODES === -->
+    <!-- ========== BLOCK 1: BASE STATUS ========== -->
+    <div class="group-label" style="left:780px; top:20px; color:var(--purple);">Блок 1: Базовый Статус</div>
 
-    <!-- BLOCK 1: Base status -->
-    <div class="node node-purple" id="node-block1" style="left:760px; top:60px; min-width:240px;"
-         onclick="openDetail('block1')">
-      <div class="node-label">БЛОК 1: Базовый статус</div>
-      <div class="node-sub">Вопросы 1.1, 1.1б, 1.2, 1.3</div>
-      <div class="node-badge" style="background:var(--purple-bg); color:var(--purple);">3-4 вопроса</div>
+    <!-- Q 1.1 -->
+    <div class="qcard qcard-purple" id="q11" style="left:880px; top:60px;">
+      <div class="qcard-head">
+        <span class="qcard-num">1.1</span>
+        <span class="qcard-title">Сейчас ты...</span>
+        <span class="qcard-var">{status}</span>
+      </div>
+      <div class="qcard-msg">Карта Идеальных Отношений
+Начнём с главного. Сейчас ты...</div>
+      <table class="qcard-table">
+        <tr><th>Кнопка</th><th>Значение</th><th>Далее</th></tr>
+        <tr><td><span class="b">1</span> Свободна</td><td class="v">free</td><td>→ 1.1б</td></tr>
+        <tr><td><span class="b">2</span> В отношениях</td><td class="v">together</td><td>→ 1.2</td></tr>
+        <tr><td><span class="b">3</span> Замужем</td><td class="v">married</td><td>→ 1.2</td></tr>
+      </table>
     </div>
 
-    <!-- DECISION: status -->
-    <div class="node node-purple node-diamond" id="node-decision" style="left:800px; top:200px; min-width:160px;"
-         onclick="openDetail('decision')">
-      <div class="node-label">status = ?</div>
-      <div class="node-sub">free / together / married</div>
+    <!-- Q 1.1б -->
+    <div class="qcard qcard-purple" id="q11b" style="left:540px; top:340px;">
+      <div class="qcard-head">
+        <span class="qcard-num">1.1б</span>
+        <span class="qcard-title">Почему сейчас одна?</span>
+        <span class="qcard-var">{why_single}</span>
+      </div>
+      <div class="qcard-msg">Только если status = free
+Авто: {years} = none</div>
+      <table class="qcard-table">
+        <tr><th>Кнопка</th><th>Значение</th></tr>
+        <tr><td><span class="b">1</span> Не отошла от прошлых</td><td class="v">past_hurt</td></tr>
+        <tr><td><span class="b">2</span> Не могу найти нормальных</td><td class="v">no_good_men</td></tr>
+        <tr><td><span class="b">3</span> Нет времени</td><td class="v">no_time</td></tr>
+        <tr><td><span class="b">4</span> Сама так решила</td><td class="v">by_choice</td></tr>
+        <tr><td><span class="b">5</span> Так сложилось</td><td class="v">just_happened</td></tr>
+      </table>
+      <div class="qcard-next">→ <strong>Вопрос 1.3</strong></div>
     </div>
 
-    <!-- BLOCK 2A: In couple -->
-    <div class="node node-pink" id="node-block2a" style="left:460px; top:350px; min-width:240px;"
-         onclick="openDetail('block2a')">
-      <div class="node-label">БЛОК 2А: Про неё</div>
-      <div class="node-sub">В паре · Вопросы 2А.1-2А.3</div>
-      <div class="node-badge" style="background:var(--pink-bg); color:var(--pink);">3 вопроса</div>
+    <!-- Q 1.2 -->
+    <div class="qcard qcard-purple" id="q12" style="left:1220px; top:340px;">
+      <div class="qcard-head">
+        <span class="qcard-num">1.2</span>
+        <span class="qcard-title">Сколько вы вместе?</span>
+        <span class="qcard-var">{years}</span>
+      </div>
+      <div class="qcard-msg">Только если status ≠ free</div>
+      <table class="qcard-table">
+        <tr><th>Кнопка</th><th>Значение</th></tr>
+        <tr><td><span class="b">1</span> До 1 года</td><td class="v">under1</td></tr>
+        <tr><td><span class="b">2</span> 1-3 года</td><td class="v">1to3</td></tr>
+        <tr><td><span class="b">3</span> 3-7 лет</td><td class="v">3to7</td></tr>
+        <tr><td><span class="b">4</span> 7-15 лет</td><td class="v">7to15</td></tr>
+        <tr><td><span class="b">5</span> Больше 15 лет</td><td class="v">over15</td></tr>
+      </table>
+      <div class="qcard-next">→ <strong>Вопрос 1.3</strong></div>
     </div>
 
-    <!-- BLOCK 2B: Single -->
-    <div class="node node-blue" id="node-block2b" style="left:1060px; top:350px; min-width:240px;"
-         onclick="openDetail('block2b')">
-      <div class="node-label">БЛОК 2Б: Про неё</div>
-      <div class="node-sub">Свободная · Вопросы 2Б.1-2Б.6</div>
-      <div class="node-badge" style="background:var(--blue-bg); color:var(--blue);">6 вопросов</div>
+    <!-- branch labels -->
+    <div class="branch-tag" style="left:720px; top:280px; background:var(--blue-bg); color:var(--blue);">status = free</div>
+    <div class="branch-tag" style="left:1350px; top:280px; background:var(--pink-bg); color:var(--pink);">status ≠ free</div>
+
+    <!-- Q 1.3 -->
+    <div class="qcard qcard-purple" id="q13" style="left:880px; top:640px;">
+      <div class="qcard-head">
+        <span class="qcard-num">1.3</span>
+        <span class="qcard-title">Дети?</span>
+        <span class="qcard-var">{kids}</span>
+      </div>
+      <table class="qcard-table">
+        <tr><th>Кнопка</th><th>Значение</th></tr>
+        <tr><td><span class="b">1</span> Нет детей</td><td class="v">no</td></tr>
+        <tr><td><span class="b">2</span> Маленькие (до 7)</td><td class="v">small</td></tr>
+        <tr><td><span class="b">3</span> Школьники/подростки</td><td class="v">teen</td></tr>
+        <tr><td><span class="b">4</span> Уже взрослые</td><td class="v">adult</td></tr>
+      </table>
+      <div class="qcard-next">
+        <span class="next-blue">status = free → Блок 2Б</span> ·
+        <span class="next-pink">status ≠ free → Блок 2А</span>
+      </div>
     </div>
 
-    <!-- Branch labels -->
-    <div style="position:absolute; left:540px; top:290px; background:var(--pink-bg); color:var(--pink); padding:4px 14px; border-radius:12px; font-size:12px; font-weight:600;">В ПАРЕ</div>
-    <div style="position:absolute; left:1120px; top:290px; background:var(--blue-bg); color:var(--blue); padding:4px 14px; border-radius:12px; font-size:12px; font-weight:600;">СВОБОДНА</div>
-
-    <!-- BLOCK 3: Shared -->
-    <div class="node node-orange" id="node-block3" style="left:730px; top:520px; min-width:300px;"
-         onclick="openDetail('block3')">
-      <div class="node-label">БЛОК 3: Раскрепощённость</div>
-      <div class="node-sub">Общий для всех · Вопросы 3.1-3.9</div>
-      <div class="node-badge" style="background:var(--orange-bg); color:var(--orange);">9 вопросов · баллы</div>
+    <!-- ========== DECISION ========== -->
+    <div class="decision" id="dec1" style="left:920px; top:900px;">
+      <div class="decision-label">Развилка по {status}</div>
+      <div class="decision-sub">free → 2Б · together/married → 2А</div>
     </div>
 
-    <!-- Merge label -->
-    <div style="position:absolute; left:820px; top:478px; color:var(--text-dim); font-size:11px; font-style:italic;">обе ветки сходятся</div>
+    <!-- ========== BLOCK 2A: IN COUPLE ========== -->
+    <div class="group-label" style="left:100px; top:980px; color:var(--pink);">Блок 2А: В Паре</div>
 
-    <!-- DECISION 2: after block 3 -->
-    <div class="node node-orange node-diamond" id="node-decision2" style="left:800px; top:660px; min-width:160px;"
-         onclick="openDetail('decision2')">
-      <div class="node-label">status = ?</div>
-      <div class="node-sub">Вторая развилка</div>
+    <!-- placeholder for stage 3 content -->
+    <div class="placeholder-card qcard-pink" id="q2a1" style="left:200px; top:1020px;">
+      Этап 3 — Вопрос 2А.1<br>{her_role}
+    </div>
+    <div class="placeholder-card qcard-pink" id="q2a2" style="left:200px; top:1180px;">
+      Этап 3 — Вопрос 2А.2<br>{her_goal}
+    </div>
+    <div class="placeholder-card qcard-pink" id="q2a3" style="left:200px; top:1340px;">
+      Этап 3 — Вопрос 2А.3<br>{her_experience}<br>→ Блок 3
     </div>
 
-    <!-- BLOCK 4A: About him -->
-    <div class="node node-pink" id="node-block4a" style="left:420px; top:800px; min-width:240px;"
-         onclick="openDetail('block4a')">
-      <div class="node-label">БЛОК 4А: Про него</div>
-      <div class="node-sub">В паре · Вопросы 4А.1-4А.3</div>
-      <div class="node-badge" style="background:var(--pink-bg); color:var(--pink);">3 вопроса</div>
+    <!-- ========== BLOCK 2B: SINGLE ========== -->
+    <div class="group-label" style="left:1350px; top:980px; color:var(--blue);">Блок 2Б: Свободна</div>
+
+    <div class="placeholder-card qcard-blue" id="q2b1" style="left:1400px; top:1020px;">
+      Этап 3 — Вопрос 2Б.1<br>{last_sex} · баллы
+    </div>
+    <div class="placeholder-card qcard-blue" id="q2b2" style="left:1400px; top:1180px;">
+      Этап 3 — Вопрос 2Б.2<br>{dates_invites} · баллы
+    </div>
+    <div class="placeholder-card qcard-blue" id="q2b3" style="left:1400px; top:1340px;">
+      Этап 3 — Вопрос 2Б.3<br>{dating_apps} · баллы
+    </div>
+    <div class="placeholder-card qcard-blue" id="q2b4" style="left:1780px; top:1020px;">
+      Этап 3 — Вопрос 2Б.4<br>{flirt_skill} · баллы
+    </div>
+    <div class="placeholder-card qcard-blue" id="q2b5" style="left:1780px; top:1180px;">
+      Этап 3 — Вопрос 2Б.5<br>{first_date_feel} · баллы
+    </div>
+    <div class="placeholder-card qcard-blue" id="q2b6" style="left:1780px; top:1340px;">
+      Этап 3 — Вопрос 2Б.6<br>{her_goal_single}<br>→ Блок 3
     </div>
 
-    <!-- BLOCK 4B: Ideal -->
-    <div class="node node-blue" id="node-block4b" style="left:1060px; top:800px; min-width:240px;"
-         onclick="openDetail('block4b')">
-      <div class="node-label">БЛОК 4Б: Про идеал</div>
-      <div class="node-sub">Свободная · Вопросы 4Б.1-4Б.3</div>
-      <div class="node-badge" style="background:var(--blue-bg); color:var(--blue);">3 вопроса</div>
+    <!-- ========== BLOCK 3: OPENNESS ========== -->
+    <div class="group-label" style="left:650px; top:1580px; color:var(--orange);">Блок 3: Раскрепощённость (для всех)</div>
+
+    <div class="placeholder-card qcard-orange" id="q31" style="left:200px; top:1640px;">Этап 4 — Вопрос 3.1<br>{style} · баллы</div>
+    <div class="placeholder-card qcard-orange" id="q32" style="left:600px; top:1640px;">Этап 4 — Вопрос 3.2<br>{oral_attitude} · баллы</div>
+    <div class="placeholder-card qcard-orange" id="q33" style="left:1000px; top:1640px;">Этап 4 — Вопрос 3.3<br>{body_comfort} · баллы</div>
+    <div class="placeholder-card qcard-orange" id="q34" style="left:1400px; top:1640px;">Этап 4 — Вопрос 3.4<br>{toys_exp} · баллы</div>
+    <div class="placeholder-card qcard-orange" id="q35" style="left:1800px; top:1640px;">Этап 4 — Вопрос 3.5<br>{communicate_desires}</div>
+    <div class="placeholder-card qcard-orange" id="q36" style="left:200px; top:1820px;">Этап 4 — Вопрос 3.6<br>{experiments} · баллы</div>
+    <div class="placeholder-card qcard-orange" id="q37" style="left:600px; top:1820px;">Этап 4 — Вопрос 3.7<br>{her_initiative} · баллы</div>
+    <div class="placeholder-card qcard-orange" id="q38" style="left:1000px; top:1820px;">Этап 4 — Вопрос 3.8<br>{vocal} · баллы</div>
+    <div class="placeholder-card qcard-orange" id="q39" style="left:1400px; top:1820px;">Этап 4 — Вопрос 3.9<br>{location} · баллы</div>
+
+    <!-- Scoring placeholder -->
+    <div class="placeholder-card qcard-orange" id="scoring" style="left:700px; top:2020px; width:700px;">
+      Этап 5 — Шкала баллов 0-44<br>
+      {total_score} → {level}: sleeping / awakening / free / fire / goddess
     </div>
 
-    <!-- Branch labels 2 -->
-    <div style="position:absolute; left:500px; top:750px; background:var(--pink-bg); color:var(--pink); padding:4px 14px; border-radius:12px; font-size:12px; font-weight:600;">В ПАРЕ</div>
-    <div style="position:absolute; left:1120px; top:750px; background:var(--blue-bg); color:var(--blue); padding:4px 14px; border-radius:12px; font-size:12px; font-weight:600;">СВОБОДНА</div>
-
-    <!-- BLOCK 5: Relationships -->
-    <div class="node node-pink" id="node-block5" style="left:420px; top:960px; min-width:240px;"
-         onclick="openDetail('block5')">
-      <div class="node-label">БЛОК 5: Про отношения</div>
-      <div class="node-sub">Только в паре · Вопросы 5.1-5.5</div>
-      <div class="node-badge" style="background:var(--pink-bg); color:var(--pink);">5 вопросов</div>
+    <!-- ========== DECISION 2 ========== -->
+    <div class="decision" id="dec2" style="left:920px; top:2200px;">
+      <div class="decision-label">Развилка 2 по {status}</div>
+      <div class="decision-sub">free → 4Б → Результат · ≠free → 4А → 5 → Результат</div>
     </div>
 
-    <!-- RESULT (couple) -->
-    <div class="node node-green" id="node-result-couple" style="left:440px; top:1120px; min-width:200px;"
-         onclick="openDetail('result-couple')">
-      <div class="node-label">РЕЗУЛЬТАТ</div>
-      <div class="node-sub">В паре · П1-П15</div>
-      <div class="node-badge" style="background:var(--green-bg); color:var(--green);">15 комбинаций</div>
+    <!-- ========== BLOCK 4A ========== -->
+    <div class="group-label" style="left:100px; top:2320px; color:var(--pink);">Блок 4А: Про Него</div>
+
+    <div class="placeholder-card qcard-pink" id="q4a1" style="left:200px; top:2360px;">Этап 4 — Вопрос 4А.1<br>{he_desire}</div>
+    <div class="placeholder-card qcard-pink" id="q4a2" style="left:200px; top:2520px;">Этап 4 — Вопрос 4А.2<br>{he_likes}</div>
+    <div class="placeholder-card qcard-pink" id="q4a3" style="left:200px; top:2680px;">Этап 4 — Вопрос 4А.3<br>{he_response}<br>→ Блок 5</div>
+
+    <!-- ========== BLOCK 4B ========== -->
+    <div class="group-label" style="left:1350px; top:2320px; color:var(--blue);">Блок 4Б: Про Идеал</div>
+
+    <div class="placeholder-card qcard-blue" id="q4b1" style="left:1400px; top:2360px;">Этап 4 — Вопрос 4Б.1<br>{ideal_type}</div>
+    <div class="placeholder-card qcard-blue" id="q4b2" style="left:1400px; top:2520px;">Этап 4 — Вопрос 4Б.2<br>{ideal_vibe}</div>
+    <div class="placeholder-card qcard-blue" id="q4b3" style="left:1400px; top:2680px;">Этап 4 — Вопрос 4Б.3<br>{ideal_intimacy}<br>→ Результат (блок 5 пропускается)</div>
+
+    <!-- ========== BLOCK 5 ========== -->
+    <div class="group-label" style="left:100px; top:2880px; color:var(--pink);">Блок 5: Про Отношения (только в паре)</div>
+
+    <div class="placeholder-card qcard-pink" id="q51" style="left:200px; top:2920px;">Этап 4 — Вопрос 5.1<br>{frequency} · баллы</div>
+    <div class="placeholder-card qcard-pink" id="q52" style="left:600px; top:2920px;">Этап 4 — Вопрос 5.2<br>{initiator}</div>
+    <div class="placeholder-card qcard-pink" id="q53" style="left:200px; top:3080px;">Этап 4 — Вопрос 5.3<br>{cheating}</div>
+    <div class="placeholder-card qcard-pink" id="q54" style="left:600px; top:3080px;">Этап 4 — Вопрос 5.4<br>{main_problem}</div>
+    <div class="placeholder-card qcard-pink" id="q55" style="left:400px; top:3240px;">Этап 4 — Вопрос 5.5<br>{change_wish}<br>→ Результат</div>
+
+    <!-- ========== RESULTS ========== -->
+    <div class="group-label" style="left:100px; top:3440px; color:var(--green);">Результаты</div>
+
+    <div class="placeholder-card qcard-green" style="left:200px; top:3500px; width:500px;">
+      Этап 6 — Рекомендации В ПАРЕ: П1-П15<br>
+      15 комбинаций с приоритетом · П15 = fallback
     </div>
 
-    <!-- RESULT (single) -->
-    <div class="node node-green" id="node-result-single" style="left:1080px; top:960px; min-width:200px;"
-         onclick="openDetail('result-single')">
-      <div class="node-label">РЕЗУЛЬТАТ</div>
-      <div class="node-sub">Свободная · С1-С15</div>
-      <div class="node-badge" style="background:var(--green-bg); color:var(--green);">15 комбинаций</div>
+    <div class="placeholder-card qcard-green" style="left:1400px; top:3500px; width:500px;">
+      Этап 6 — Рекомендации СВОБОДНЫЕ: С1-С15<br>
+      15 комбинаций с приоритетом · С15 = fallback
     </div>
 
-    <!-- Skip label for 4B -->
-    <div style="position:absolute; left:1200px; top:915px; color:var(--text-dim); font-size:11px; font-style:italic;">блок 5 пропускается</div>
+    <!-- Variables -->
+    <div class="placeholder-card" style="left:700px; top:3750px; width:700px; border-color: var(--green);">
+      Этап 7 — Сводная таблица всех переменных
+    </div>
 
   </div>
 </div>
 
-<!-- ===== LEGEND ===== -->
+<!-- LEGEND -->
 <div class="legend">
-  <div class="legend-item"><div class="legend-dot" style="background:var(--purple);"></div> <span>Общие блоки</span></div>
-  <div class="legend-item"><div class="legend-dot" style="background:var(--pink);"></div> <span>Ветка "В паре"</span></div>
-  <div class="legend-item"><div class="legend-dot" style="background:var(--blue);"></div> <span>Ветка "Свободна"</span></div>
-  <div class="legend-item"><div class="legend-dot" style="background:var(--orange);"></div> <span>Общий блок (баллы)</span></div>
-  <div class="legend-item"><div class="legend-dot" style="background:var(--green);"></div> <span>Результат</span></div>
+  <div class="legend-row"><div class="legend-dot" style="background:var(--purple)"></div>Блок 1 — общие</div>
+  <div class="legend-row"><div class="legend-dot" style="background:var(--pink)"></div>Ветка «В паре»</div>
+  <div class="legend-row"><div class="legend-dot" style="background:var(--blue)"></div>Ветка «Свободна»</div>
+  <div class="legend-row"><div class="legend-dot" style="background:var(--orange)"></div>Блок 3 — для всех</div>
+  <div class="legend-row"><div class="legend-dot" style="background:var(--green)"></div>Результат</div>
 </div>
 
-<!-- ===== MINIMAP ===== -->
+<!-- MINIMAP -->
 <div class="minimap" id="minimap">
-  <canvas class="minimap-canvas" id="minimapCanvas" width="200" height="140"></canvas>
-  <div class="minimap-viewport" id="minimapViewport"></div>
+  <canvas id="mmCanvas" width="180" height="120"></canvas>
+  <div class="minimap-vp" id="mmVp"></div>
 </div>
 
-<!-- ===== DETAIL OVERLAY ===== -->
-<div class="detail-overlay" id="detailOverlay" onclick="closeDetail(event)">
-  <div class="detail-panel" onclick="event.stopPropagation()">
-    <div class="detail-header">
-      <div class="detail-title" id="detailTitle"></div>
-      <button class="detail-close" onclick="closeDetail()">&times;</button>
-    </div>
-    <div class="detail-body" id="detailBody"></div>
-  </div>
-</div>
-
-<!-- ===== JAVASCRIPT ===== -->
 <script>
-// ============================================
-// PAN & ZOOM
-// ============================================
-const canvasWrap = document.getElementById('canvasWrap');
-const canvas = document.getElementById('canvas');
-let scale = 0.75;
-let panX = -200;
-let panY = -20;
-let isPanning = false;
-let startX, startY;
+// === PAN & ZOOM ===
+const wrap = document.getElementById('wrap');
+const cvs = document.getElementById('canvas');
+let sc = 0.45, px = 0, py = 0;
+let dragging = false, sx, sy;
 
-function applyTransform() {
-  canvas.style.transform = `translate(${panX}px, ${panY}px) scale(${scale})`;
-  document.getElementById('zoomLevel').textContent = Math.round(scale * 100) + '%';
-  updateMinimap();
+function apply() {
+  cvs.style.transform = `translate(${px}px,${py}px) scale(${sc})`;
+  document.getElementById('zoomLvl').textContent = Math.round(sc*100)+'%';
+  updateMM();
 }
 
-canvasWrap.addEventListener('mousedown', (e) => {
-  if (e.target.closest('.node')) return;
-  isPanning = true;
-  startX = e.clientX - panX;
-  startY = e.clientY - panY;
-  canvasWrap.style.cursor = 'grabbing';
+wrap.addEventListener('mousedown', e => {
+  if (e.target.closest('.qcard, .decision, .placeholder-card')) { /* allow text selection */ }
+  else { dragging = true; sx = e.clientX - px; sy = e.clientY - py; wrap.classList.add('panning'); e.preventDefault(); }
 });
+window.addEventListener('mousemove', e => { if (!dragging) return; px = e.clientX - sx; py = e.clientY - sy; apply(); });
+window.addEventListener('mouseup', () => { dragging = false; wrap.classList.remove('panning'); });
 
-window.addEventListener('mousemove', (e) => {
-  if (!isPanning) return;
-  panX = e.clientX - startX;
-  panY = e.clientY - startY;
-  applyTransform();
-});
-
-window.addEventListener('mouseup', () => {
-  isPanning = false;
-  canvasWrap.style.cursor = 'grab';
-});
-
-canvasWrap.addEventListener('wheel', (e) => {
+wrap.addEventListener('wheel', e => {
   e.preventDefault();
-  const delta = e.deltaY > 0 ? -0.08 : 0.08;
-  const newScale = Math.min(2, Math.max(0.2, scale + delta));
-  // zoom toward cursor
-  const rect = canvasWrap.getBoundingClientRect();
-  const cx = e.clientX - rect.left;
-  const cy = e.clientY - rect.top;
-  panX = cx - (cx - panX) * (newScale / scale);
-  panY = cy - (cy - panY) * (newScale / scale);
-  scale = newScale;
-  applyTransform();
+  const d = e.deltaY > 0 ? -0.05 : 0.05;
+  const ns = Math.min(2, Math.max(0.15, sc + d));
+  const r = wrap.getBoundingClientRect();
+  const cx = e.clientX - r.left, cy = e.clientY - r.top;
+  px = cx - (cx - px) * (ns / sc);
+  py = cy - (cy - py) * (ns / sc);
+  sc = ns;
+  apply();
 }, { passive: false });
 
-function zoomBy(delta) {
-  scale = Math.min(2, Math.max(0.2, scale + delta));
-  applyTransform();
+function zoomBy(d) { sc = Math.min(2, Math.max(0.15, sc + d)); apply(); }
+function resetView() { sc = 0.45; px = 0; py = 0; apply(); }
+function jumpTo(x, y) {
+  const r = wrap.getBoundingClientRect();
+  px = r.width/2 - x * sc;
+  py = r.height/2 - y * sc;
+  apply();
 }
 
-function resetView() {
-  scale = 0.75;
-  panX = -200;
-  panY = -20;
-  applyTransform();
+// === DRAW ARROWS ===
+function line(x1,y1,x2,y2,color,marker) {
+  const svg = document.getElementById('svg');
+  const dy = y2-y1, dx = x2-x1;
+  const p = document.createElementNS('http://www.w3.org/2000/svg','path');
+  // smooth vertical bezier
+  const cy1 = y1 + dy*0.4, cy2 = y2 - dy*0.4;
+  p.setAttribute('d',`M${x1},${y1} C${x1},${cy1} ${x2},${cy2} ${x2},${y2}`);
+  p.setAttribute('stroke', color);
+  p.setAttribute('stroke-width','2');
+  p.setAttribute('fill','none');
+  p.setAttribute('stroke-opacity','0.5');
+  p.setAttribute('marker-end',`url(#${marker})`);
+  svg.appendChild(p);
 }
 
-function focusNode(id) {
-  const node = document.getElementById('node-' + id);
-  if (!node) return;
-  const rect = canvasWrap.getBoundingClientRect();
-  const nodeLeft = parseInt(node.style.left);
-  const nodeTop = parseInt(node.style.top);
-  const nodeW = node.offsetWidth;
-  const nodeH = node.offsetHeight;
-  panX = rect.width / 2 - (nodeLeft + nodeW / 2) * scale;
-  panY = rect.height / 2 - (nodeTop + nodeH / 2) * scale;
-  applyTransform();
-  // highlight nav chip
-  document.querySelectorAll('.nav-chip').forEach(c => c.classList.remove('active'));
-}
+function getBot(id) { const e=document.getElementById(id); if(!e)return null; return { x:parseInt(e.style.left)+e.offsetWidth/2, y:parseInt(e.style.top)+e.offsetHeight }; }
+function getTop(id) { const e=document.getElementById(id); if(!e)return null; return { x:parseInt(e.style.left)+e.offsetWidth/2, y:parseInt(e.style.top) }; }
 
-// ============================================
-// DRAW ARROWS
-// ============================================
 function drawArrows() {
-  const svg = document.getElementById('arrowsSvg');
-  // Clear existing paths
-  svg.querySelectorAll('path, line').forEach(el => el.remove());
+  const svg = document.getElementById('svg');
+  svg.querySelectorAll('path').forEach(p=>p.remove());
 
-  const arrows = [
-    // Block1 -> Decision
-    { from: 'node-block1', to: 'node-decision', color: 'purple', fromSide: 'bottom', toSide: 'top' },
-    // Decision -> Block2A (left)
-    { from: 'node-decision', to: 'node-block2a', color: 'pink', fromSide: 'left', toSide: 'top' },
-    // Decision -> Block2B (right)
-    { from: 'node-decision', to: 'node-block2b', color: 'blue', fromSide: 'right', toSide: 'top' },
-    // Block2A -> Block3
-    { from: 'node-block2a', to: 'node-block3', color: 'pink', fromSide: 'bottom', toSide: 'left' },
-    // Block2B -> Block3
-    { from: 'node-block2b', to: 'node-block3', color: 'blue', fromSide: 'bottom', toSide: 'right' },
-    // Block3 -> Decision2
-    { from: 'node-block3', to: 'node-decision2', color: 'orange', fromSide: 'bottom', toSide: 'top' },
-    // Decision2 -> Block4A
-    { from: 'node-decision2', to: 'node-block4a', color: 'pink', fromSide: 'left', toSide: 'top' },
-    // Decision2 -> Block4B
-    { from: 'node-decision2', to: 'node-block4b', color: 'blue', fromSide: 'right', toSide: 'top' },
-    // Block4A -> Block5
-    { from: 'node-block4a', to: 'node-block5', color: 'pink', fromSide: 'bottom', toSide: 'top' },
-    // Block5 -> Result couple
-    { from: 'node-block5', to: 'node-result-couple', color: 'pink', fromSide: 'bottom', toSide: 'top' },
-    // Block4B -> Result single
-    { from: 'node-block4b', to: 'node-result-single', color: 'blue', fromSide: 'bottom', toSide: 'top' },
-  ];
+  // Block 1 flow
+  const q11b = getBot('q11'), q11bT = getTop('q11b'), q12T = getTop('q12');
+  const q13T = getTop('q13');
+  if(q11b && q11bT) line(q11b.x-80, q11b.y, q11bT.x, q11bT.y, '#6b9dff','ab');
+  if(q11b && q12T) line(q11b.x+80, q11b.y, q12T.x, q12T.y, '#ff6b9d','ak');
 
-  arrows.forEach(a => {
-    const fromEl = document.getElementById(a.from);
-    const toEl = document.getElementById(a.to);
-    if (!fromEl || !toEl) return;
+  // 1.1б → 1.3, 1.2 → 1.3
+  const q11bb = getBot('q11b'), q12b = getBot('q12');
+  if(q11bb && q13T) line(q11bb.x, q11bb.y, q13T.x-40, q13T.y, '#a06bff','ap');
+  if(q12b && q13T) line(q12b.x, q12b.y, q13T.x+40, q13T.y, '#a06bff','ap');
 
-    const fL = parseInt(fromEl.style.left);
-    const fT = parseInt(fromEl.style.top);
-    const fW = fromEl.offsetWidth;
-    const fH = fromEl.offsetHeight;
+  // 1.3 → Decision
+  const q13b = getBot('q13'), d1t = getTop('dec1');
+  if(q13b && d1t) line(q13b.x, q13b.y, d1t.x, d1t.y, '#a06bff','ap');
 
-    const tL = parseInt(toEl.style.left);
-    const tT = parseInt(toEl.style.top);
-    const tW = toEl.offsetWidth;
-    const tH = toEl.offsetHeight;
+  // Decision → 2A.1, 2B.1
+  const d1b = getBot('dec1'), q2a1t = getTop('q2a1'), q2b1t = getTop('q2b1');
+  if(d1b && q2a1t) line(d1b.x-60, d1b.y, q2a1t.x, q2a1t.y, '#ff6b9d','ak');
+  if(d1b && q2b1t) line(d1b.x+60, d1b.y, q2b1t.x, q2b1t.y, '#6b9dff','ab');
 
-    let x1, y1, x2, y2;
+  // 2A chain
+  const pairs2a = [['q2a1','q2a2'],['q2a2','q2a3']];
+  pairs2a.forEach(([a,b]) => { const f=getBot(a),t=getTop(b); if(f&&t) line(f.x,f.y,t.x,t.y,'#ff6b9d','ak'); });
 
-    // FROM side
-    if (a.fromSide === 'bottom')      { x1 = fL + fW/2; y1 = fT + fH; }
-    else if (a.fromSide === 'top')    { x1 = fL + fW/2; y1 = fT; }
-    else if (a.fromSide === 'left')   { x1 = fL;        y1 = fT + fH/2; }
-    else if (a.fromSide === 'right')  { x1 = fL + fW;   y1 = fT + fH/2; }
+  // 2B chain
+  const pairs2b = [['q2b1','q2b2'],['q2b2','q2b3'],['q2b4','q2b5'],['q2b5','q2b6']];
+  pairs2b.forEach(([a,b]) => { const f=getBot(a),t=getTop(b); if(f&&t) line(f.x,f.y,t.x,t.y,'#6b9dff','ab'); });
+  // 2b3 → 2b4 horizontal-ish
+  const b3b=getBot('q2b3'), b4t=getTop('q2b4');
+  if(b3b&&b4t) line(b3b.x+100,b3b.y-50,b4t.x,b4t.y,'#6b9dff','ab');
 
-    // TO side
-    if (a.toSide === 'bottom')      { x2 = tL + tW/2; y2 = tT + tH; }
-    else if (a.toSide === 'top')    { x2 = tL + tW/2; y2 = tT; }
-    else if (a.toSide === 'left')   { x2 = tL;        y2 = tT + tH/2; }
-    else if (a.toSide === 'right')  { x2 = tL + tW;   y2 = tT + tH/2; }
+  // 2A.3 → Block 3, 2B.6 → Block 3
+  const q2a3b=getBot('q2a3'), q2b6b=getBot('q2b6'), q31t=getTop('q31'), q39t=getTop(window.innerWidth>600?'q33':'q31');
+  if(q2a3b && q31t) line(q2a3b.x,q2a3b.y,q31t.x,q31t.y,'#ff6b9d','ak');
+  if(q2b6b && q39t) line(q2b6b.x,q2b6b.y,q39t.x+200,q39t.y,'#6b9dff','ab');
 
-    // Bezier control points
-    const dx = Math.abs(x2 - x1);
-    const dy = Math.abs(y2 - y1);
-    let cx1 = x1, cy1 = y1, cx2 = x2, cy2 = y2;
+  // Block 3 grid → scoring
+  const q39b=getBot('q39'), sct=getTop('scoring');
+  if(q39b&&sct) line(q39b.x,q39b.y,sct.x,sct.y,'#ffaa6b','ao');
 
-    if (a.fromSide === 'bottom' && a.toSide === 'top') {
-      cy1 = y1 + dy * 0.4;
-      cy2 = y2 - dy * 0.4;
-    } else if (a.fromSide === 'bottom' && (a.toSide === 'left' || a.toSide === 'right')) {
-      cy1 = y1 + dy * 0.6;
-      cx2 = a.toSide === 'left' ? x2 - dx * 0.3 : x2 + dx * 0.3;
-    } else if ((a.fromSide === 'left' || a.fromSide === 'right') && a.toSide === 'top') {
-      cx1 = a.fromSide === 'left' ? x1 - dx * 0.5 : x1 + dx * 0.5;
-      cy2 = y2 - dy * 0.5;
-    }
+  // scoring → decision2
+  const scb=getBot('scoring'), d2t=getTop('dec2');
+  if(scb&&d2t) line(scb.x,scb.y,d2t.x,d2t.y,'#ffaa6b','ao');
 
-    const colors = { purple: '#a06bff', pink: '#ff6b9d', blue: '#6b9dff', orange: '#ffaa6b', green: '#6bffb8' };
-    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-    path.setAttribute('d', `M ${x1} ${y1} C ${cx1} ${cy1}, ${cx2} ${cy2}, ${x2} ${y2}`);
-    path.setAttribute('stroke', colors[a.color]);
-    path.setAttribute('stroke-width', '2.5');
-    path.setAttribute('fill', 'none');
-    path.setAttribute('stroke-opacity', '0.6');
-    path.setAttribute('marker-end', `url(#arrow-${a.color})`);
-    svg.appendChild(path);
+  // decision2 → 4A, 4B
+  const d2b=getBot('dec2'), q4a1t=getTop('q4a1'), q4b1t=getTop('q4b1');
+  if(d2b&&q4a1t) line(d2b.x-60,d2b.y,q4a1t.x,q4a1t.y,'#ff6b9d','ak');
+  if(d2b&&q4b1t) line(d2b.x+60,d2b.y,q4b1t.x,q4b1t.y,'#6b9dff','ab');
+
+  // 4A chain
+  [['q4a1','q4a2'],['q4a2','q4a3']].forEach(([a,b])=>{const f=getBot(a),t=getTop(b);if(f&&t)line(f.x,f.y,t.x,t.y,'#ff6b9d','ak');});
+
+  // 4B chain
+  [['q4b1','q4b2'],['q4b2','q4b3']].forEach(([a,b])=>{const f=getBot(a),t=getTop(b);if(f&&t)line(f.x,f.y,t.x,t.y,'#6b9dff','ab');});
+
+  // 4A.3 → 5.1
+  const q4a3b=getBot('q4a3'), q51t=getTop('q51');
+  if(q4a3b&&q51t) line(q4a3b.x,q4a3b.y,q51t.x,q51t.y,'#ff6b9d','ak');
+
+  // Block 5 chain
+  [['q51','q53'],['q52','q54']].forEach(([a,b])=>{const f=getBot(a),t=getTop(b);if(f&&t)line(f.x,f.y,t.x,t.y,'#ff6b9d','ak');});
+  const q53b=getBot('q53'),q55t=getTop('q55');
+  if(q53b&&q55t) line(q53b.x,q53b.y,q55t.x,q55t.y,'#ff6b9d','ak');
+}
+
+// === MINIMAP ===
+function updateMM() {
+  const mc=document.getElementById('mmCanvas'), ctx=mc.getContext('2d');
+  ctx.clearRect(0,0,mc.width,mc.height);
+  const bw=2200, bh=4000, s=Math.min(mc.width/bw, mc.height/bh);
+  document.querySelectorAll('.qcard,.placeholder-card,.decision').forEach(n=>{
+    const x=parseInt(n.style.left)*s, y=parseInt(n.style.top)*s;
+    const w=(n.offsetWidth||340)*s, h=(n.offsetHeight||100)*s;
+    if(n.classList.contains('qcard-purple')||n.classList.contains('decision')) ctx.fillStyle='#a06bff';
+    else if(n.classList.contains('qcard-pink')) ctx.fillStyle='#ff6b9d';
+    else if(n.classList.contains('qcard-blue')) ctx.fillStyle='#6b9dff';
+    else if(n.classList.contains('qcard-orange')) ctx.fillStyle='#ffaa6b';
+    else if(n.classList.contains('qcard-green')) ctx.fillStyle='#6bffb8';
+    else ctx.fillStyle='#555';
+    ctx.globalAlpha=0.7;
+    ctx.fillRect(x,y,Math.max(w,3),Math.max(h,2));
   });
+  ctx.globalAlpha=1;
+  const vp=document.getElementById('mmVp'), wr=wrap.getBoundingClientRect();
+  vp.style.left=(-px/sc)*s+'px'; vp.style.top=(-py/sc)*s+'px';
+  vp.style.width=(wr.width/sc)*s+'px'; vp.style.height=(wr.height/sc)*s+'px';
 }
 
-// ============================================
-// MINIMAP
-// ============================================
-function updateMinimap() {
-  const mc = document.getElementById('minimapCanvas');
-  const ctx = mc.getContext('2d');
-  const mw = mc.width, mh = mc.height;
-  ctx.clearRect(0, 0, mw, mh);
-
-  // Board bounds
-  const bw = 1800, bh = 1400;
-  const sx = mw / bw, sy = mh / bh;
-  const s = Math.min(sx, sy);
-
-  // Draw nodes
-  document.querySelectorAll('.node').forEach(n => {
-    const x = parseInt(n.style.left) * s;
-    const y = parseInt(n.style.top) * s;
-    const w = n.offsetWidth * s;
-    const h = n.offsetHeight * s;
-    const cl = n.classList;
-    if (cl.contains('node-purple')) ctx.fillStyle = '#a06bff';
-    else if (cl.contains('node-pink')) ctx.fillStyle = '#ff6b9d';
-    else if (cl.contains('node-blue')) ctx.fillStyle = '#6b9dff';
-    else if (cl.contains('node-orange')) ctx.fillStyle = '#ffaa6b';
-    else if (cl.contains('node-green')) ctx.fillStyle = '#6bffb8';
-    else ctx.fillStyle = '#888';
-    ctx.globalAlpha = 0.8;
-    ctx.fillRect(x, y, Math.max(w, 4), Math.max(h, 3));
-  });
-  ctx.globalAlpha = 1;
-
-  // Viewport indicator
-  const vp = document.getElementById('minimapViewport');
-  const wrapRect = canvasWrap.getBoundingClientRect();
-  const vpX = (-panX / scale) * s;
-  const vpY = (-panY / scale) * s;
-  const vpW = (wrapRect.width / scale) * s;
-  const vpH = (wrapRect.height / scale) * s;
-  vp.style.left = vpX + 'px';
-  vp.style.top = vpY + 'px';
-  vp.style.width = vpW + 'px';
-  vp.style.height = vpH + 'px';
-}
-
-// ============================================
-// DETAIL PANEL
-// ============================================
-const details = {
-  'block1': {
-    title: 'БЛОК 1: Базовый статус',
-    body: '<div class="placeholder">Этап 3 — карточки вопросов 1.1, 1.1б, 1.2, 1.3</div>'
-  },
-  'decision': {
-    title: 'Развилка: status',
-    body: '<div class="placeholder">Если status = free → Блок 2Б<br>Если status ≠ free → Блок 2А</div>'
-  },
-  'block2a': {
-    title: 'БЛОК 2А: Про неё (в паре)',
-    body: '<div class="placeholder">Этап 3 — карточки вопросов 2А.1, 2А.2, 2А.3</div>'
-  },
-  'block2b': {
-    title: 'БЛОК 2Б: Про неё (свободная)',
-    body: '<div class="placeholder">Этап 3 — карточки вопросов 2Б.1 – 2Б.6</div>'
-  },
-  'block3': {
-    title: 'БЛОК 3: Раскрепощённость',
-    body: '<div class="placeholder">Этап 4 — карточки вопросов 3.1 – 3.9 + подсчёт баллов</div>'
-  },
-  'decision2': {
-    title: 'Развилка 2: status',
-    body: '<div class="placeholder">Если status = free → Блок 4Б → Результат<br>Если status ≠ free → Блок 4А → Блок 5 → Результат</div>'
-  },
-  'block4a': {
-    title: 'БЛОК 4А: Про него (в паре)',
-    body: '<div class="placeholder">Этап 4 — карточки вопросов 4А.1, 4А.2, 4А.3</div>'
-  },
-  'block4b': {
-    title: 'БЛОК 4Б: Про идеал (свободна)',
-    body: '<div class="placeholder">Этап 4 — карточки вопросов 4Б.1, 4Б.2, 4Б.3</div>'
-  },
-  'block5': {
-    title: 'БЛОК 5: Про отношения',
-    body: '<div class="placeholder">Этап 4 — карточки вопросов 5.1 – 5.5</div>'
-  },
-  'result-couple': {
-    title: 'РЕЗУЛЬТАТ: В паре',
-    body: '<div class="placeholder">Этап 6 — комбинации П1-П15</div>'
-  },
-  'result-single': {
-    title: 'РЕЗУЛЬТАТ: Свободна',
-    body: '<div class="placeholder">Этап 6 — комбинации С1-С15</div>'
-  },
-};
-
-function openDetail(key) {
-  const d = details[key];
-  if (!d) return;
-  document.getElementById('detailTitle').textContent = d.title;
-  document.getElementById('detailBody').innerHTML = d.body;
-  document.getElementById('detailOverlay').classList.add('open');
-}
-
-function closeDetail(e) {
-  if (e && e.target !== document.getElementById('detailOverlay')) return;
-  document.getElementById('detailOverlay').classList.remove('open');
-}
-
-// close on Esc
-window.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') document.getElementById('detailOverlay').classList.remove('open');
-});
-
-// ============================================
-// INIT
-// ============================================
-applyTransform();
-// Wait for layout to finish, then draw arrows
-requestAnimationFrame(() => {
-  requestAnimationFrame(() => {
-    drawArrows();
-  });
-});
+// === INIT ===
+apply();
+requestAnimationFrame(()=>requestAnimationFrame(drawArrows));
 </script>
 
 </body>

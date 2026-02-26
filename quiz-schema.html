@@ -5,739 +5,836 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Карта Идеальных Отношений — Схема квиза v2.0</title>
 <style>
-/* ===== RESET & BASE ===== */
+/* ===== RESET ===== */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg-dark: #0f0f1a;
+  --bg: #0d0d1a;
+  --bg-board: #111122;
   --bg-card: #1a1a2e;
-  --bg-card-hover: #22223a;
-  --bg-section: #16162b;
+  --bg-card-hover: #222240;
   --border: #2a2a4a;
-  --text: #e0e0f0;
-  --text-dim: #8888aa;
+  --text: #d0d0e8;
+  --text-dim: #7777aa;
   --text-bright: #ffffff;
-  --accent-pink: #ff6b9d;
-  --accent-pink-dim: #cc5580;
-  --accent-blue: #6b9dff;
-  --accent-blue-dim: #5580cc;
-  --accent-purple: #a06bff;
-  --accent-green: #6bffb8;
-  --accent-orange: #ffaa6b;
-  --accent-yellow: #ffd76b;
-  --accent-red: #ff6b6b;
-  --radius: 12px;
-  --radius-sm: 8px;
-  --shadow: 0 4px 20px rgba(0,0,0,0.4);
-  --shadow-hover: 0 8px 32px rgba(0,0,0,0.6);
-  --transition: 0.25s ease;
+  --pink: #ff6b9d;
+  --pink-bg: rgba(255,107,157,0.12);
+  --blue: #6b9dff;
+  --blue-bg: rgba(107,157,255,0.12);
+  --purple: #a06bff;
+  --purple-bg: rgba(160,107,255,0.12);
+  --orange: #ffaa6b;
+  --orange-bg: rgba(255,170,107,0.12);
+  --green: #6bffb8;
+  --green-bg: rgba(107,255,184,0.12);
+  --yellow: #ffd76b;
+  --yellow-bg: rgba(255,215,107,0.12);
+  --red: #ff6b6b;
+  --shadow: 0 4px 24px rgba(0,0,0,0.5);
+  --shadow-glow-pink: 0 0 20px rgba(255,107,157,0.15);
+  --shadow-glow-blue: 0 0 20px rgba(107,157,255,0.15);
+  --shadow-glow-purple: 0 0 20px rgba(160,107,255,0.15);
 }
 
 html { scroll-behavior: smooth; }
-
 body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  background: var(--bg-dark);
+  background: var(--bg);
   color: var(--text);
-  line-height: 1.6;
-  min-height: 100vh;
-}
-
-/* ===== SCROLLBAR ===== */
-::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: var(--bg-dark); }
-::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: var(--accent-purple); }
-
-/* ===== HEADER ===== */
-.header {
-  background: linear-gradient(135deg, #1a1a2e 0%, #2d1b4e 100%);
-  border-bottom: 1px solid var(--border);
-  padding: 32px 24px;
-  text-align: center;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-.header h1 {
-  font-size: 28px;
-  font-weight: 700;
-  color: var(--text-bright);
-  margin-bottom: 8px;
-}
-
-.header .subtitle {
-  font-size: 14px;
-  color: var(--text-dim);
-}
-
-/* ===== NAVIGATION ===== */
-.nav {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-top: 16px;
-}
-
-.nav a {
-  display: inline-block;
-  padding: 6px 16px;
-  background: rgba(255,255,255,0.06);
-  color: var(--text-dim);
-  text-decoration: none;
-  border-radius: 20px;
-  font-size: 13px;
-  border: 1px solid transparent;
-  transition: var(--transition);
-}
-
-.nav a:hover {
-  color: var(--text-bright);
-  background: rgba(255,255,255,0.12);
-  border-color: var(--border);
-}
-
-/* ===== MAIN CONTAINER ===== */
-.container {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 24px;
-}
-
-/* ===== SECTIONS ===== */
-.section {
-  margin-bottom: 32px;
-}
-
-.section-header {
-  cursor: pointer;
-  user-select: none;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 20px 24px;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius) var(--radius) 0 0;
-  transition: var(--transition);
-}
-
-.section-header:hover {
-  background: var(--bg-card-hover);
-}
-
-.section-header .arrow {
-  font-size: 14px;
-  color: var(--text-dim);
-  transition: transform 0.3s ease;
-  flex-shrink: 0;
-}
-
-.section-header.collapsed .arrow {
-  transform: rotate(-90deg);
-}
-
-.section-header h2 {
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--text-bright);
-  flex-grow: 1;
-}
-
-.section-header .badge {
-  font-size: 12px;
-  padding: 4px 12px;
-  border-radius: 12px;
-  font-weight: 500;
-}
-
-.badge-pink { background: rgba(255,107,157,0.15); color: var(--accent-pink); }
-.badge-blue { background: rgba(107,157,255,0.15); color: var(--accent-blue); }
-.badge-purple { background: rgba(160,107,255,0.15); color: var(--accent-purple); }
-.badge-green { background: rgba(107,255,184,0.15); color: var(--accent-green); }
-.badge-orange { background: rgba(255,170,107,0.15); color: var(--accent-orange); }
-.badge-yellow { background: rgba(255,215,107,0.15); color: var(--accent-yellow); }
-
-.section-body {
-  border: 1px solid var(--border);
-  border-top: none;
-  border-radius: 0 0 var(--radius) var(--radius);
-  padding: 24px;
-  background: var(--bg-section);
+  line-height: 1.5;
   overflow: hidden;
-  transition: max-height 0.4s ease, padding 0.4s ease, opacity 0.3s ease;
+  height: 100vh;
 }
 
-.section-body.hidden {
-  max-height: 0;
-  padding-top: 0;
-  padding-bottom: 0;
-  opacity: 0;
-  border: none;
-}
-
-/* ===== CARDS ===== */
-.card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 20px;
-  margin-bottom: 16px;
-  box-shadow: var(--shadow);
-  transition: var(--transition);
-}
-
-.card:hover {
-  box-shadow: var(--shadow-hover);
-  border-color: rgba(160,107,255,0.3);
-}
-
-.card:last-child { margin-bottom: 0; }
-
-.card-title {
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--text-bright);
-  margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.card-number {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 32px;
-  height: 26px;
-  padding: 0 8px;
-  border-radius: 6px;
-  font-size: 13px;
-  font-weight: 700;
-  flex-shrink: 0;
-}
-
-.num-block1 { background: rgba(160,107,255,0.2); color: var(--accent-purple); }
-.num-block2a { background: rgba(255,107,157,0.2); color: var(--accent-pink); }
-.num-block2b { background: rgba(107,157,255,0.2); color: var(--accent-blue); }
-.num-block3 { background: rgba(255,170,107,0.2); color: var(--accent-orange); }
-.num-block4a { background: rgba(255,107,157,0.2); color: var(--accent-pink); }
-.num-block4b { background: rgba(107,157,255,0.2); color: var(--accent-blue); }
-.num-block5 { background: rgba(255,107,157,0.2); color: var(--accent-pink); }
-
-.card-message {
-  background: rgba(0,0,0,0.25);
-  border-left: 3px solid var(--accent-purple);
-  padding: 12px 16px;
-  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-  font-size: 13px;
-  color: var(--text-dim);
-  margin-bottom: 12px;
-  white-space: pre-line;
-}
-
-.card-var {
-  display: inline-block;
-  padding: 3px 10px;
-  background: rgba(107,255,184,0.1);
-  color: var(--accent-green);
-  border-radius: 4px;
-  font-family: 'JetBrains Mono', 'Fira Code', monospace;
-  font-size: 13px;
-  margin-bottom: 12px;
-}
-
-.card-auto {
-  display: inline-block;
-  padding: 3px 10px;
-  background: rgba(255,215,107,0.1);
-  color: var(--accent-yellow);
-  border-radius: 4px;
-  font-family: 'JetBrains Mono', 'Fira Code', monospace;
-  font-size: 13px;
-  margin-bottom: 12px;
-  margin-left: 6px;
-}
-
-/* ===== TABLES ===== */
-.data-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 12px;
-  font-size: 13px;
-}
-
-.data-table th {
-  text-align: left;
-  padding: 8px 12px;
-  background: rgba(255,255,255,0.04);
-  color: var(--text-dim);
-  font-weight: 600;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+/* ===== TOOLBAR ===== */
+.toolbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 48px;
+  background: linear-gradient(135deg, #1a1a2e, #2d1b4e);
   border-bottom: 1px solid var(--border);
-}
-
-.data-table td {
-  padding: 8px 12px;
-  border-bottom: 1px solid rgba(255,255,255,0.04);
-  color: var(--text);
-}
-
-.data-table tr:last-child td { border-bottom: none; }
-
-.data-table tr:hover td {
-  background: rgba(255,255,255,0.02);
-}
-
-.val { color: var(--accent-green); font-family: monospace; font-size: 12px; }
-.pts { color: var(--accent-yellow); font-weight: 600; }
-.btn-cell {
-  display: inline-block;
-  padding: 2px 10px;
-  background: rgba(160,107,255,0.15);
-  border-radius: 4px;
-  color: var(--accent-purple);
-  font-weight: 600;
-  font-size: 12px;
-}
-
-/* ===== NEXT STEP ARROW ===== */
-.next-step {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-top: 12px;
-  padding: 8px 14px;
-  background: rgba(160,107,255,0.08);
-  border-radius: var(--radius-sm);
-  font-size: 13px;
-  color: var(--accent-purple);
+  padding: 0 20px;
+  z-index: 1000;
+  gap: 16px;
 }
 
-.next-step .arrow-icon { font-size: 16px; }
-
-.next-step-branch {
-  margin-top: 12px;
-  padding: 10px 14px;
-  border-radius: var(--radius-sm);
-  font-size: 13px;
-}
-
-.branch-pink {
-  background: rgba(255,107,157,0.08);
-  border-left: 3px solid var(--accent-pink);
-  color: var(--accent-pink);
-}
-
-.branch-blue {
-  background: rgba(107,157,255,0.08);
-  border-left: 3px solid var(--accent-blue);
-  color: var(--accent-blue);
-}
-
-/* ===== FLOW CHART ===== */
-.flow-chart {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0;
-  padding: 20px;
-}
-
-.flow-node {
-  padding: 14px 28px;
-  border-radius: var(--radius);
-  font-weight: 600;
-  font-size: 14px;
-  text-align: center;
-  min-width: 220px;
-  position: relative;
-  box-shadow: var(--shadow);
-}
-
-.flow-node-main {
-  background: linear-gradient(135deg, #2d1b4e, #1a1a3e);
-  border: 1px solid var(--accent-purple);
+.toolbar-title {
+  font-size: 15px;
+  font-weight: 700;
   color: var(--text-bright);
+  white-space: nowrap;
 }
 
-.flow-node-pink {
-  background: linear-gradient(135deg, #3e1a2e, #2e1a2a);
-  border: 1px solid var(--accent-pink);
-  color: var(--accent-pink);
+.toolbar-subtitle {
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-left: -8px;
 }
 
-.flow-node-blue {
-  background: linear-gradient(135deg, #1a2e3e, #1a2a3e);
-  border: 1px solid var(--accent-blue);
-  color: var(--accent-blue);
-}
-
-.flow-node-shared {
-  background: linear-gradient(135deg, #2e2a1a, #2a2a1a);
-  border: 1px solid var(--accent-orange);
-  color: var(--accent-orange);
-}
-
-.flow-node-result {
-  background: linear-gradient(135deg, #1a3e2e, #1a3a2a);
-  border: 1px solid var(--accent-green);
-  color: var(--accent-green);
-}
-
-.flow-connector {
-  width: 2px;
-  height: 28px;
+.toolbar-sep {
+  width: 1px;
+  height: 24px;
   background: var(--border);
-  position: relative;
 }
 
-.flow-connector::after {
-  content: '';
-  position: absolute;
-  bottom: -4px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0;
-  height: 0;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: 6px solid var(--border);
-}
-
-.flow-split {
+.toolbar-zoom {
   display: flex;
-  gap: 40px;
-  align-items: flex-start;
-  position: relative;
-}
-
-.flow-branch {
-  display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 0;
+  gap: 6px;
+  margin-left: auto;
 }
 
-.flow-branch-label {
+.toolbar-zoom span {
   font-size: 12px;
-  font-weight: 600;
-  padding: 4px 14px;
+  color: var(--text-dim);
+  min-width: 40px;
+  text-align: center;
+}
+
+.btn {
+  padding: 4px 12px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 12px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.btn:hover { background: rgba(255,255,255,0.12); color: var(--text-bright); }
+
+.toolbar-nav {
+  display: flex;
+  gap: 4px;
+}
+
+.nav-chip {
+  padding: 4px 10px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid transparent;
   border-radius: 12px;
+  color: var(--text-dim);
+  font-size: 11px;
+  cursor: pointer;
+  transition: 0.2s;
+  white-space: nowrap;
+}
+.nav-chip:hover { color: var(--text-bright); border-color: var(--border); background: rgba(255,255,255,0.08); }
+.nav-chip.active { color: var(--purple); border-color: var(--purple); background: var(--purple-bg); }
+
+/* ===== CANVAS ===== */
+.canvas-wrap {
+  position: fixed;
+  top: 48px; left: 0; right: 0; bottom: 0;
+  overflow: hidden;
+  cursor: grab;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(160,107,255,0.03) 0%, transparent 70%),
+    var(--bg-board);
+}
+
+.canvas-wrap:active { cursor: grabbing; }
+
+.canvas-grid {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-image:
+    radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 30px 30px;
+  pointer-events: none;
+}
+
+.canvas {
+  position: absolute;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+
+/* ===== SVG ARROWS ===== */
+.arrows-layer {
+  position: absolute;
+  top: 0; left: 0;
+  pointer-events: none;
+  overflow: visible;
+}
+
+/* ===== NODES ===== */
+.node {
+  position: absolute;
+  border-radius: 14px;
+  padding: 16px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  user-select: none;
+  min-width: 180px;
+}
+
+.node:hover {
+  transform: translateY(-2px);
+  z-index: 10;
+}
+
+.node-label {
+  font-weight: 700;
+  font-size: 14px;
   margin-bottom: 4px;
 }
 
-.label-pink { background: rgba(255,107,157,0.15); color: var(--accent-pink); }
-.label-blue { background: rgba(107,157,255,0.15); color: var(--accent-blue); }
-
-.flow-merge-line {
-  position: relative;
-  width: 100%;
-  height: 40px;
-}
-
-/* ===== SCORING SCALE ===== */
-.score-scale {
-  display: flex;
-  height: 48px;
-  border-radius: var(--radius-sm);
-  overflow: hidden;
-  margin: 16px 0;
-  border: 1px solid var(--border);
-}
-
-.score-zone {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+.node-sub {
   font-size: 11px;
-  font-weight: 600;
-  padding: 4px 8px;
-  transition: var(--transition);
-}
-
-.score-zone:hover { filter: brightness(1.3); }
-
-.zone-sleeping { background: #2a2040; color: #9988cc; flex: 11; }
-.zone-awakening { background: #2e2850; color: #bb99dd; flex: 8; }
-.zone-free { background: #3a2a40; color: #ee8866; flex: 10; }
-.zone-fire { background: #4a2030; color: #ff6655; flex: 10; }
-.zone-goddess { background: #4a3020; color: #ffcc44; flex: 6; }
-
-.score-labels {
-  display: flex;
-  justify-content: space-between;
-  font-size: 11px;
-  color: var(--text-dim);
-  margin-top: 4px;
-  padding: 0 4px;
-}
-
-/* ===== RECOMMENDATION CARDS ===== */
-.recs-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-}
-
-.rec-column-title {
-  font-size: 16px;
-  font-weight: 700;
-  margin-bottom: 12px;
-  padding-bottom: 8px;
-  border-bottom: 2px solid;
-}
-
-.rec-column-title.pink { color: var(--accent-pink); border-color: var(--accent-pink); }
-.rec-column-title.blue { color: var(--accent-blue); border-color: var(--accent-blue); }
-
-.rec-card {
-  padding: 12px 16px;
-  border-radius: var(--radius-sm);
-  margin-bottom: 8px;
-  font-size: 13px;
-  border-left: 3px solid;
-  transition: var(--transition);
-}
-
-.rec-card:hover { transform: translateX(4px); }
-
-.rec-card-pink {
-  background: rgba(255,107,157,0.06);
-  border-color: var(--accent-pink);
-}
-
-.rec-card-blue {
-  background: rgba(107,157,255,0.06);
-  border-color: var(--accent-blue);
-}
-
-.rec-card-fallback {
   opacity: 0.7;
+}
+
+.node-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 8px;
+  font-size: 10px;
+  font-weight: 600;
+  margin-top: 6px;
+}
+
+/* Node types */
+.node-purple {
+  background: linear-gradient(145deg, #2a1f50, #1e1840);
+  border: 2px solid var(--purple);
+  color: var(--text-bright);
+  box-shadow: var(--shadow), var(--shadow-glow-purple);
+}
+
+.node-pink {
+  background: linear-gradient(145deg, #3a1a30, #2e1528);
+  border: 2px solid var(--pink);
+  color: var(--pink);
+  box-shadow: var(--shadow), var(--shadow-glow-pink);
+}
+
+.node-blue {
+  background: linear-gradient(145deg, #1a2540, #152035);
+  border: 2px solid var(--blue);
+  color: var(--blue);
+  box-shadow: var(--shadow), var(--shadow-glow-blue);
+}
+
+.node-orange {
+  background: linear-gradient(145deg, #302818, #282015);
+  border: 2px solid var(--orange);
+  color: var(--orange);
+  box-shadow: var(--shadow), 0 0 20px rgba(255,170,107,0.12);
+}
+
+.node-green {
+  background: linear-gradient(145deg, #18302a, #152822);
+  border: 2px solid var(--green);
+  color: var(--green);
+  box-shadow: var(--shadow), 0 0 20px rgba(107,255,184,0.12);
+}
+
+.node-diamond {
+  min-width: 160px;
+  border-radius: 14px;
   border-style: dashed;
 }
 
-.rec-number {
+/* ===== DETAIL PANEL (popup on click) ===== */
+.detail-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 2000;
+  backdrop-filter: blur(4px);
+}
+.detail-overlay.open { display: flex; align-items: center; justify-content: center; }
+
+.detail-panel {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  max-width: 700px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 28px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+}
+
+.detail-panel::-webkit-scrollbar { width: 6px; }
+.detail-panel::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+.detail-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.detail-title {
+  font-size: 20px;
   font-weight: 700;
-  font-size: 14px;
-  margin-right: 8px;
+  color: var(--text-bright);
 }
 
-.rec-name { font-weight: 600; color: var(--text-bright); }
-
-.rec-conditions {
-  margin-top: 6px;
-  font-size: 12px;
+.detail-close {
+  width: 32px; height: 32px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: rgba(255,255,255,0.04);
   color: var(--text-dim);
-  font-family: monospace;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.2s;
 }
+.detail-close:hover { background: rgba(255,255,255,0.1); color: var(--text-bright); }
 
-/* ===== VARIABLES TABLE ===== */
-.var-group-title {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--accent-purple);
-  margin: 16px 0 8px;
-  padding-bottom: 6px;
-  border-bottom: 1px solid var(--border);
-}
-
-.var-group-title:first-child { margin-top: 0; }
-
-/* ===== RESPONSIVE ===== */
-@media (max-width: 900px) {
-  .recs-grid { grid-template-columns: 1fr; }
-  .flow-split { flex-direction: column; gap: 16px; align-items: center; }
-  .header h1 { font-size: 22px; }
-  .container { padding: 12px; }
-}
-
-/* ===== PLACEHOLDER ===== */
-.placeholder {
+.detail-body { color: var(--text); font-size: 14px; }
+.detail-body .placeholder {
   text-align: center;
-  padding: 40px;
+  padding: 40px 20px;
   color: var(--text-dim);
   font-style: italic;
-  font-size: 14px;
+}
+
+/* ===== MINIMAP ===== */
+.minimap {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  width: 200px;
+  height: 140px;
+  background: rgba(17,17,34,0.9);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  z-index: 500;
+  box-shadow: var(--shadow);
+}
+
+.minimap-canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.minimap-viewport {
+  position: absolute;
+  border: 1.5px solid var(--purple);
+  background: rgba(160,107,255,0.08);
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+/* ===== LEGEND ===== */
+.legend {
+  position: fixed;
+  bottom: 16px;
+  left: 16px;
+  background: rgba(17,17,34,0.9);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 16px;
+  z-index: 500;
+  box-shadow: var(--shadow);
+  font-size: 11px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+.legend-item:last-child { margin-bottom: 0; }
+
+.legend-dot {
+  width: 10px; height: 10px;
+  border-radius: 3px;
+  flex-shrink: 0;
 }
 </style>
 </head>
 <body>
 
-<!-- ===== HEADER ===== -->
-<div class="header">
-  <h1>Карта Идеальных Отношений — Схема квиза v2.0</h1>
-  <div class="subtitle">Визуальная карта для разработчика | Salebot / Telegram</div>
-  <nav class="nav">
-    <a href="#flow">Поток</a>
-    <a href="#block1">Блок 1</a>
-    <a href="#block2a">Блок 2А</a>
-    <a href="#block2b">Блок 2Б</a>
-    <a href="#block3">Блок 3</a>
-    <a href="#block4a">Блок 4А</a>
-    <a href="#block4b">Блок 4Б</a>
-    <a href="#block5">Блок 5</a>
-    <a href="#scoring">Баллы</a>
-    <a href="#recs">Рекомендации</a>
-    <a href="#vars">Переменные</a>
-  </nav>
+<!-- ===== TOOLBAR ===== -->
+<div class="toolbar">
+  <div class="toolbar-title">Карта Идеальных Отношений</div>
+  <div class="toolbar-subtitle">v2.0 · Схема</div>
+  <div class="toolbar-sep"></div>
+  <div class="toolbar-nav">
+    <div class="nav-chip active" onclick="focusNode('block1')">Блок 1</div>
+    <div class="nav-chip" onclick="focusNode('block2a')">2А</div>
+    <div class="nav-chip" onclick="focusNode('block2b')">2Б</div>
+    <div class="nav-chip" onclick="focusNode('block3')">Блок 3</div>
+    <div class="nav-chip" onclick="focusNode('block4a')">4А</div>
+    <div class="nav-chip" onclick="focusNode('block4b')">4Б</div>
+    <div class="nav-chip" onclick="focusNode('block5')">Блок 5</div>
+    <div class="nav-chip" onclick="focusNode('result')">Результат</div>
+  </div>
+  <div class="toolbar-zoom">
+    <button class="btn" onclick="zoomBy(-0.15)">−</button>
+    <span id="zoomLevel">100%</span>
+    <button class="btn" onclick="zoomBy(0.15)">+</button>
+    <button class="btn" onclick="resetView()">Сброс</button>
+  </div>
 </div>
 
-<!-- ===== MAIN CONTAINER ===== -->
-<div class="container">
+<!-- ===== CANVAS ===== -->
+<div class="canvas-wrap" id="canvasWrap">
+  <div class="canvas-grid"></div>
+  <div class="canvas" id="canvas">
 
-  <!-- SECTION: Flow Chart -->
-  <div class="section" id="flow">
-    <div class="section-header" onclick="toggleSection(this)">
-      <span class="arrow">&#9660;</span>
-      <h2>Общая карта потока</h2>
-      <span class="badge badge-purple">Блок-схема</span>
+    <!-- SVG arrows layer -->
+    <svg class="arrows-layer" id="arrowsSvg" width="2000" height="1800">
+      <defs>
+        <marker id="arrow-purple" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+          <polygon points="0 0, 10 3.5, 0 7" fill="#a06bff" />
+        </marker>
+        <marker id="arrow-pink" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+          <polygon points="0 0, 10 3.5, 0 7" fill="#ff6b9d" />
+        </marker>
+        <marker id="arrow-blue" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+          <polygon points="0 0, 10 3.5, 0 7" fill="#6b9dff" />
+        </marker>
+        <marker id="arrow-orange" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+          <polygon points="0 0, 10 3.5, 0 7" fill="#ffaa6b" />
+        </marker>
+        <marker id="arrow-green" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+          <polygon points="0 0, 10 3.5, 0 7" fill="#6bffb8" />
+        </marker>
+      </defs>
+      <!-- Arrows will be drawn by JS -->
+    </svg>
+
+    <!-- === NODES === -->
+
+    <!-- BLOCK 1: Base status -->
+    <div class="node node-purple" id="node-block1" style="left:760px; top:60px; min-width:240px;"
+         onclick="openDetail('block1')">
+      <div class="node-label">БЛОК 1: Базовый статус</div>
+      <div class="node-sub">Вопросы 1.1, 1.1б, 1.2, 1.3</div>
+      <div class="node-badge" style="background:var(--purple-bg); color:var(--purple);">3-4 вопроса</div>
     </div>
-    <div class="section-body">
-      <div class="placeholder">Этап 2 — блок-схема потока квиза</div>
+
+    <!-- DECISION: status -->
+    <div class="node node-purple node-diamond" id="node-decision" style="left:800px; top:200px; min-width:160px;"
+         onclick="openDetail('decision')">
+      <div class="node-label">status = ?</div>
+      <div class="node-sub">free / together / married</div>
     </div>
+
+    <!-- BLOCK 2A: In couple -->
+    <div class="node node-pink" id="node-block2a" style="left:460px; top:350px; min-width:240px;"
+         onclick="openDetail('block2a')">
+      <div class="node-label">БЛОК 2А: Про неё</div>
+      <div class="node-sub">В паре · Вопросы 2А.1-2А.3</div>
+      <div class="node-badge" style="background:var(--pink-bg); color:var(--pink);">3 вопроса</div>
+    </div>
+
+    <!-- BLOCK 2B: Single -->
+    <div class="node node-blue" id="node-block2b" style="left:1060px; top:350px; min-width:240px;"
+         onclick="openDetail('block2b')">
+      <div class="node-label">БЛОК 2Б: Про неё</div>
+      <div class="node-sub">Свободная · Вопросы 2Б.1-2Б.6</div>
+      <div class="node-badge" style="background:var(--blue-bg); color:var(--blue);">6 вопросов</div>
+    </div>
+
+    <!-- Branch labels -->
+    <div style="position:absolute; left:540px; top:290px; background:var(--pink-bg); color:var(--pink); padding:4px 14px; border-radius:12px; font-size:12px; font-weight:600;">В ПАРЕ</div>
+    <div style="position:absolute; left:1120px; top:290px; background:var(--blue-bg); color:var(--blue); padding:4px 14px; border-radius:12px; font-size:12px; font-weight:600;">СВОБОДНА</div>
+
+    <!-- BLOCK 3: Shared -->
+    <div class="node node-orange" id="node-block3" style="left:730px; top:520px; min-width:300px;"
+         onclick="openDetail('block3')">
+      <div class="node-label">БЛОК 3: Раскрепощённость</div>
+      <div class="node-sub">Общий для всех · Вопросы 3.1-3.9</div>
+      <div class="node-badge" style="background:var(--orange-bg); color:var(--orange);">9 вопросов · баллы</div>
+    </div>
+
+    <!-- Merge label -->
+    <div style="position:absolute; left:820px; top:478px; color:var(--text-dim); font-size:11px; font-style:italic;">обе ветки сходятся</div>
+
+    <!-- DECISION 2: after block 3 -->
+    <div class="node node-orange node-diamond" id="node-decision2" style="left:800px; top:660px; min-width:160px;"
+         onclick="openDetail('decision2')">
+      <div class="node-label">status = ?</div>
+      <div class="node-sub">Вторая развилка</div>
+    </div>
+
+    <!-- BLOCK 4A: About him -->
+    <div class="node node-pink" id="node-block4a" style="left:420px; top:800px; min-width:240px;"
+         onclick="openDetail('block4a')">
+      <div class="node-label">БЛОК 4А: Про него</div>
+      <div class="node-sub">В паре · Вопросы 4А.1-4А.3</div>
+      <div class="node-badge" style="background:var(--pink-bg); color:var(--pink);">3 вопроса</div>
+    </div>
+
+    <!-- BLOCK 4B: Ideal -->
+    <div class="node node-blue" id="node-block4b" style="left:1060px; top:800px; min-width:240px;"
+         onclick="openDetail('block4b')">
+      <div class="node-label">БЛОК 4Б: Про идеал</div>
+      <div class="node-sub">Свободная · Вопросы 4Б.1-4Б.3</div>
+      <div class="node-badge" style="background:var(--blue-bg); color:var(--blue);">3 вопроса</div>
+    </div>
+
+    <!-- Branch labels 2 -->
+    <div style="position:absolute; left:500px; top:750px; background:var(--pink-bg); color:var(--pink); padding:4px 14px; border-radius:12px; font-size:12px; font-weight:600;">В ПАРЕ</div>
+    <div style="position:absolute; left:1120px; top:750px; background:var(--blue-bg); color:var(--blue); padding:4px 14px; border-radius:12px; font-size:12px; font-weight:600;">СВОБОДНА</div>
+
+    <!-- BLOCK 5: Relationships -->
+    <div class="node node-pink" id="node-block5" style="left:420px; top:960px; min-width:240px;"
+         onclick="openDetail('block5')">
+      <div class="node-label">БЛОК 5: Про отношения</div>
+      <div class="node-sub">Только в паре · Вопросы 5.1-5.5</div>
+      <div class="node-badge" style="background:var(--pink-bg); color:var(--pink);">5 вопросов</div>
+    </div>
+
+    <!-- RESULT (couple) -->
+    <div class="node node-green" id="node-result-couple" style="left:440px; top:1120px; min-width:200px;"
+         onclick="openDetail('result-couple')">
+      <div class="node-label">РЕЗУЛЬТАТ</div>
+      <div class="node-sub">В паре · П1-П15</div>
+      <div class="node-badge" style="background:var(--green-bg); color:var(--green);">15 комбинаций</div>
+    </div>
+
+    <!-- RESULT (single) -->
+    <div class="node node-green" id="node-result-single" style="left:1080px; top:960px; min-width:200px;"
+         onclick="openDetail('result-single')">
+      <div class="node-label">РЕЗУЛЬТАТ</div>
+      <div class="node-sub">Свободная · С1-С15</div>
+      <div class="node-badge" style="background:var(--green-bg); color:var(--green);">15 комбинаций</div>
+    </div>
+
+    <!-- Skip label for 4B -->
+    <div style="position:absolute; left:1200px; top:915px; color:var(--text-dim); font-size:11px; font-style:italic;">блок 5 пропускается</div>
+
   </div>
+</div>
 
-  <!-- SECTION: Block 1 -->
-  <div class="section" id="block1">
-    <div class="section-header" onclick="toggleSection(this)">
-      <span class="arrow">&#9660;</span>
-      <h2>Блок 1: Базовый статус</h2>
-      <span class="badge badge-purple">3-4 вопроса</span>
+<!-- ===== LEGEND ===== -->
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:var(--purple);"></div> <span>Общие блоки</span></div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--pink);"></div> <span>Ветка "В паре"</span></div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--blue);"></div> <span>Ветка "Свободна"</span></div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--orange);"></div> <span>Общий блок (баллы)</span></div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--green);"></div> <span>Результат</span></div>
+</div>
+
+<!-- ===== MINIMAP ===== -->
+<div class="minimap" id="minimap">
+  <canvas class="minimap-canvas" id="minimapCanvas" width="200" height="140"></canvas>
+  <div class="minimap-viewport" id="minimapViewport"></div>
+</div>
+
+<!-- ===== DETAIL OVERLAY ===== -->
+<div class="detail-overlay" id="detailOverlay" onclick="closeDetail(event)">
+  <div class="detail-panel" onclick="event.stopPropagation()">
+    <div class="detail-header">
+      <div class="detail-title" id="detailTitle"></div>
+      <button class="detail-close" onclick="closeDetail()">&times;</button>
     </div>
-    <div class="section-body">
-      <div class="placeholder">Этап 3 — карточки вопросов 1.1, 1.1б, 1.2, 1.3</div>
-    </div>
+    <div class="detail-body" id="detailBody"></div>
   </div>
-
-  <!-- SECTION: Block 2A -->
-  <div class="section" id="block2a">
-    <div class="section-header" onclick="toggleSection(this)">
-      <span class="arrow">&#9660;</span>
-      <h2>Блок 2А: Про неё (в паре)</h2>
-      <span class="badge badge-pink">3 вопроса</span>
-    </div>
-    <div class="section-body">
-      <div class="placeholder">Этап 3 — карточки вопросов 2А.1, 2А.2, 2А.3</div>
-    </div>
-  </div>
-
-  <!-- SECTION: Block 2B -->
-  <div class="section" id="block2b">
-    <div class="section-header" onclick="toggleSection(this)">
-      <span class="arrow">&#9660;</span>
-      <h2>Блок 2Б: Про неё (свободная)</h2>
-      <span class="badge badge-blue">6 вопросов</span>
-    </div>
-    <div class="section-body">
-      <div class="placeholder">Этап 3 — карточки вопросов 2Б.1 – 2Б.6</div>
-    </div>
-  </div>
-
-  <!-- SECTION: Block 3 -->
-  <div class="section" id="block3">
-    <div class="section-header" onclick="toggleSection(this)">
-      <span class="arrow">&#9660;</span>
-      <h2>Блок 3: Уровень раскрепощённости</h2>
-      <span class="badge badge-orange">9 вопросов · для всех</span>
-    </div>
-    <div class="section-body">
-      <div class="placeholder">Этап 4 — карточки вопросов 3.1 – 3.9</div>
-    </div>
-  </div>
-
-  <!-- SECTION: Block 4A -->
-  <div class="section" id="block4a">
-    <div class="section-header" onclick="toggleSection(this)">
-      <span class="arrow">&#9660;</span>
-      <h2>Блок 4А: Про него (в паре)</h2>
-      <span class="badge badge-pink">3 вопроса</span>
-    </div>
-    <div class="section-body">
-      <div class="placeholder">Этап 4 — карточки вопросов 4А.1, 4А.2, 4А.3</div>
-    </div>
-  </div>
-
-  <!-- SECTION: Block 4B -->
-  <div class="section" id="block4b">
-    <div class="section-header" onclick="toggleSection(this)">
-      <span class="arrow">&#9660;</span>
-      <h2>Блок 4Б: Про идеал (свободная)</h2>
-      <span class="badge badge-blue">3 вопроса</span>
-    </div>
-    <div class="section-body">
-      <div class="placeholder">Этап 4 — карточки вопросов 4Б.1, 4Б.2, 4Б.3</div>
-    </div>
-  </div>
-
-  <!-- SECTION: Block 5 -->
-  <div class="section" id="block5">
-    <div class="section-header" onclick="toggleSection(this)">
-      <span class="arrow">&#9660;</span>
-      <h2>Блок 5: Про отношения (в паре)</h2>
-      <span class="badge badge-pink">5 вопросов</span>
-    </div>
-    <div class="section-body">
-      <div class="placeholder">Этап 4 — карточки вопросов 5.1 – 5.5</div>
-    </div>
-  </div>
-
-  <!-- SECTION: Scoring -->
-  <div class="section" id="scoring">
-    <div class="section-header" onclick="toggleSection(this)">
-      <span class="arrow">&#9660;</span>
-      <h2>Подсчёт баллов и уровни</h2>
-      <span class="badge badge-yellow">Шкала 0-44</span>
-    </div>
-    <div class="section-body">
-      <div class="placeholder">Этап 5 — шкала баллов + таблица уровней</div>
-    </div>
-  </div>
-
-  <!-- SECTION: Recommendations -->
-  <div class="section" id="recs">
-    <div class="section-header" onclick="toggleSection(this)">
-      <span class="arrow">&#9660;</span>
-      <h2>Логика рекомендаций</h2>
-      <span class="badge badge-green">П1-П15 · С1-С15</span>
-    </div>
-    <div class="section-body">
-      <div class="placeholder">Этап 6 — карточки рекомендаций с условиями</div>
-    </div>
-  </div>
-
-  <!-- SECTION: Variables -->
-  <div class="section" id="vars">
-    <div class="section-header" onclick="toggleSection(this)">
-      <span class="arrow">&#9660;</span>
-      <h2>Сводная таблица переменных</h2>
-      <span class="badge badge-green">Все переменные</span>
-    </div>
-    <div class="section-body">
-      <div class="placeholder">Этап 7 — сводная таблица всех переменных</div>
-    </div>
-  </div>
-
 </div>
 
 <!-- ===== JAVASCRIPT ===== -->
 <script>
-function toggleSection(header) {
-  const body = header.nextElementSibling;
-  const arrow = header.querySelector('.arrow');
-  if (body.classList.contains('hidden')) {
-    body.classList.remove('hidden');
-    header.classList.remove('collapsed');
-  } else {
-    body.classList.add('hidden');
-    header.classList.add('collapsed');
-  }
+// ============================================
+// PAN & ZOOM
+// ============================================
+const canvasWrap = document.getElementById('canvasWrap');
+const canvas = document.getElementById('canvas');
+let scale = 0.75;
+let panX = -200;
+let panY = -20;
+let isPanning = false;
+let startX, startY;
+
+function applyTransform() {
+  canvas.style.transform = `translate(${panX}px, ${panY}px) scale(${scale})`;
+  document.getElementById('zoomLevel').textContent = Math.round(scale * 100) + '%';
+  updateMinimap();
 }
+
+canvasWrap.addEventListener('mousedown', (e) => {
+  if (e.target.closest('.node')) return;
+  isPanning = true;
+  startX = e.clientX - panX;
+  startY = e.clientY - panY;
+  canvasWrap.style.cursor = 'grabbing';
+});
+
+window.addEventListener('mousemove', (e) => {
+  if (!isPanning) return;
+  panX = e.clientX - startX;
+  panY = e.clientY - startY;
+  applyTransform();
+});
+
+window.addEventListener('mouseup', () => {
+  isPanning = false;
+  canvasWrap.style.cursor = 'grab';
+});
+
+canvasWrap.addEventListener('wheel', (e) => {
+  e.preventDefault();
+  const delta = e.deltaY > 0 ? -0.08 : 0.08;
+  const newScale = Math.min(2, Math.max(0.2, scale + delta));
+  // zoom toward cursor
+  const rect = canvasWrap.getBoundingClientRect();
+  const cx = e.clientX - rect.left;
+  const cy = e.clientY - rect.top;
+  panX = cx - (cx - panX) * (newScale / scale);
+  panY = cy - (cy - panY) * (newScale / scale);
+  scale = newScale;
+  applyTransform();
+}, { passive: false });
+
+function zoomBy(delta) {
+  scale = Math.min(2, Math.max(0.2, scale + delta));
+  applyTransform();
+}
+
+function resetView() {
+  scale = 0.75;
+  panX = -200;
+  panY = -20;
+  applyTransform();
+}
+
+function focusNode(id) {
+  const node = document.getElementById('node-' + id);
+  if (!node) return;
+  const rect = canvasWrap.getBoundingClientRect();
+  const nodeLeft = parseInt(node.style.left);
+  const nodeTop = parseInt(node.style.top);
+  const nodeW = node.offsetWidth;
+  const nodeH = node.offsetHeight;
+  panX = rect.width / 2 - (nodeLeft + nodeW / 2) * scale;
+  panY = rect.height / 2 - (nodeTop + nodeH / 2) * scale;
+  applyTransform();
+  // highlight nav chip
+  document.querySelectorAll('.nav-chip').forEach(c => c.classList.remove('active'));
+}
+
+// ============================================
+// DRAW ARROWS
+// ============================================
+function drawArrows() {
+  const svg = document.getElementById('arrowsSvg');
+  // Clear existing paths
+  svg.querySelectorAll('path, line').forEach(el => el.remove());
+
+  const arrows = [
+    // Block1 -> Decision
+    { from: 'node-block1', to: 'node-decision', color: 'purple', fromSide: 'bottom', toSide: 'top' },
+    // Decision -> Block2A (left)
+    { from: 'node-decision', to: 'node-block2a', color: 'pink', fromSide: 'left', toSide: 'top' },
+    // Decision -> Block2B (right)
+    { from: 'node-decision', to: 'node-block2b', color: 'blue', fromSide: 'right', toSide: 'top' },
+    // Block2A -> Block3
+    { from: 'node-block2a', to: 'node-block3', color: 'pink', fromSide: 'bottom', toSide: 'left' },
+    // Block2B -> Block3
+    { from: 'node-block2b', to: 'node-block3', color: 'blue', fromSide: 'bottom', toSide: 'right' },
+    // Block3 -> Decision2
+    { from: 'node-block3', to: 'node-decision2', color: 'orange', fromSide: 'bottom', toSide: 'top' },
+    // Decision2 -> Block4A
+    { from: 'node-decision2', to: 'node-block4a', color: 'pink', fromSide: 'left', toSide: 'top' },
+    // Decision2 -> Block4B
+    { from: 'node-decision2', to: 'node-block4b', color: 'blue', fromSide: 'right', toSide: 'top' },
+    // Block4A -> Block5
+    { from: 'node-block4a', to: 'node-block5', color: 'pink', fromSide: 'bottom', toSide: 'top' },
+    // Block5 -> Result couple
+    { from: 'node-block5', to: 'node-result-couple', color: 'pink', fromSide: 'bottom', toSide: 'top' },
+    // Block4B -> Result single
+    { from: 'node-block4b', to: 'node-result-single', color: 'blue', fromSide: 'bottom', toSide: 'top' },
+  ];
+
+  arrows.forEach(a => {
+    const fromEl = document.getElementById(a.from);
+    const toEl = document.getElementById(a.to);
+    if (!fromEl || !toEl) return;
+
+    const fL = parseInt(fromEl.style.left);
+    const fT = parseInt(fromEl.style.top);
+    const fW = fromEl.offsetWidth;
+    const fH = fromEl.offsetHeight;
+
+    const tL = parseInt(toEl.style.left);
+    const tT = parseInt(toEl.style.top);
+    const tW = toEl.offsetWidth;
+    const tH = toEl.offsetHeight;
+
+    let x1, y1, x2, y2;
+
+    // FROM side
+    if (a.fromSide === 'bottom')      { x1 = fL + fW/2; y1 = fT + fH; }
+    else if (a.fromSide === 'top')    { x1 = fL + fW/2; y1 = fT; }
+    else if (a.fromSide === 'left')   { x1 = fL;        y1 = fT + fH/2; }
+    else if (a.fromSide === 'right')  { x1 = fL + fW;   y1 = fT + fH/2; }
+
+    // TO side
+    if (a.toSide === 'bottom')      { x2 = tL + tW/2; y2 = tT + tH; }
+    else if (a.toSide === 'top')    { x2 = tL + tW/2; y2 = tT; }
+    else if (a.toSide === 'left')   { x2 = tL;        y2 = tT + tH/2; }
+    else if (a.toSide === 'right')  { x2 = tL + tW;   y2 = tT + tH/2; }
+
+    // Bezier control points
+    const dx = Math.abs(x2 - x1);
+    const dy = Math.abs(y2 - y1);
+    let cx1 = x1, cy1 = y1, cx2 = x2, cy2 = y2;
+
+    if (a.fromSide === 'bottom' && a.toSide === 'top') {
+      cy1 = y1 + dy * 0.4;
+      cy2 = y2 - dy * 0.4;
+    } else if (a.fromSide === 'bottom' && (a.toSide === 'left' || a.toSide === 'right')) {
+      cy1 = y1 + dy * 0.6;
+      cx2 = a.toSide === 'left' ? x2 - dx * 0.3 : x2 + dx * 0.3;
+    } else if ((a.fromSide === 'left' || a.fromSide === 'right') && a.toSide === 'top') {
+      cx1 = a.fromSide === 'left' ? x1 - dx * 0.5 : x1 + dx * 0.5;
+      cy2 = y2 - dy * 0.5;
+    }
+
+    const colors = { purple: '#a06bff', pink: '#ff6b9d', blue: '#6b9dff', orange: '#ffaa6b', green: '#6bffb8' };
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', `M ${x1} ${y1} C ${cx1} ${cy1}, ${cx2} ${cy2}, ${x2} ${y2}`);
+    path.setAttribute('stroke', colors[a.color]);
+    path.setAttribute('stroke-width', '2.5');
+    path.setAttribute('fill', 'none');
+    path.setAttribute('stroke-opacity', '0.6');
+    path.setAttribute('marker-end', `url(#arrow-${a.color})`);
+    svg.appendChild(path);
+  });
+}
+
+// ============================================
+// MINIMAP
+// ============================================
+function updateMinimap() {
+  const mc = document.getElementById('minimapCanvas');
+  const ctx = mc.getContext('2d');
+  const mw = mc.width, mh = mc.height;
+  ctx.clearRect(0, 0, mw, mh);
+
+  // Board bounds
+  const bw = 1800, bh = 1400;
+  const sx = mw / bw, sy = mh / bh;
+  const s = Math.min(sx, sy);
+
+  // Draw nodes
+  document.querySelectorAll('.node').forEach(n => {
+    const x = parseInt(n.style.left) * s;
+    const y = parseInt(n.style.top) * s;
+    const w = n.offsetWidth * s;
+    const h = n.offsetHeight * s;
+    const cl = n.classList;
+    if (cl.contains('node-purple')) ctx.fillStyle = '#a06bff';
+    else if (cl.contains('node-pink')) ctx.fillStyle = '#ff6b9d';
+    else if (cl.contains('node-blue')) ctx.fillStyle = '#6b9dff';
+    else if (cl.contains('node-orange')) ctx.fillStyle = '#ffaa6b';
+    else if (cl.contains('node-green')) ctx.fillStyle = '#6bffb8';
+    else ctx.fillStyle = '#888';
+    ctx.globalAlpha = 0.8;
+    ctx.fillRect(x, y, Math.max(w, 4), Math.max(h, 3));
+  });
+  ctx.globalAlpha = 1;
+
+  // Viewport indicator
+  const vp = document.getElementById('minimapViewport');
+  const wrapRect = canvasWrap.getBoundingClientRect();
+  const vpX = (-panX / scale) * s;
+  const vpY = (-panY / scale) * s;
+  const vpW = (wrapRect.width / scale) * s;
+  const vpH = (wrapRect.height / scale) * s;
+  vp.style.left = vpX + 'px';
+  vp.style.top = vpY + 'px';
+  vp.style.width = vpW + 'px';
+  vp.style.height = vpH + 'px';
+}
+
+// ============================================
+// DETAIL PANEL
+// ============================================
+const details = {
+  'block1': {
+    title: 'БЛОК 1: Базовый статус',
+    body: '<div class="placeholder">Этап 3 — карточки вопросов 1.1, 1.1б, 1.2, 1.3</div>'
+  },
+  'decision': {
+    title: 'Развилка: status',
+    body: '<div class="placeholder">Если status = free → Блок 2Б<br>Если status ≠ free → Блок 2А</div>'
+  },
+  'block2a': {
+    title: 'БЛОК 2А: Про неё (в паре)',
+    body: '<div class="placeholder">Этап 3 — карточки вопросов 2А.1, 2А.2, 2А.3</div>'
+  },
+  'block2b': {
+    title: 'БЛОК 2Б: Про неё (свободная)',
+    body: '<div class="placeholder">Этап 3 — карточки вопросов 2Б.1 – 2Б.6</div>'
+  },
+  'block3': {
+    title: 'БЛОК 3: Раскрепощённость',
+    body: '<div class="placeholder">Этап 4 — карточки вопросов 3.1 – 3.9 + подсчёт баллов</div>'
+  },
+  'decision2': {
+    title: 'Развилка 2: status',
+    body: '<div class="placeholder">Если status = free → Блок 4Б → Результат<br>Если status ≠ free → Блок 4А → Блок 5 → Результат</div>'
+  },
+  'block4a': {
+    title: 'БЛОК 4А: Про него (в паре)',
+    body: '<div class="placeholder">Этап 4 — карточки вопросов 4А.1, 4А.2, 4А.3</div>'
+  },
+  'block4b': {
+    title: 'БЛОК 4Б: Про идеал (свободна)',
+    body: '<div class="placeholder">Этап 4 — карточки вопросов 4Б.1, 4Б.2, 4Б.3</div>'
+  },
+  'block5': {
+    title: 'БЛОК 5: Про отношения',
+    body: '<div class="placeholder">Этап 4 — карточки вопросов 5.1 – 5.5</div>'
+  },
+  'result-couple': {
+    title: 'РЕЗУЛЬТАТ: В паре',
+    body: '<div class="placeholder">Этап 6 — комбинации П1-П15</div>'
+  },
+  'result-single': {
+    title: 'РЕЗУЛЬТАТ: Свободна',
+    body: '<div class="placeholder">Этап 6 — комбинации С1-С15</div>'
+  },
+};
+
+function openDetail(key) {
+  const d = details[key];
+  if (!d) return;
+  document.getElementById('detailTitle').textContent = d.title;
+  document.getElementById('detailBody').innerHTML = d.body;
+  document.getElementById('detailOverlay').classList.add('open');
+}
+
+function closeDetail(e) {
+  if (e && e.target !== document.getElementById('detailOverlay')) return;
+  document.getElementById('detailOverlay').classList.remove('open');
+}
+
+// close on Esc
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') document.getElementById('detailOverlay').classList.remove('open');
+});
+
+// ============================================
+// INIT
+// ============================================
+applyTransform();
+// Wait for layout to finish, then draw arrows
+requestAnimationFrame(() => {
+  requestAnimationFrame(() => {
+    drawArrows();
+  });
+});
 </script>
 
 </body>

@@ -206,34 +206,40 @@ body {
 /* ===== GROUP LABEL ===== */
 .group-label {
   position: absolute;
-  font-size: 18px;
-  font-weight: 800;
+  font-size: 26px;
+  font-weight: 900;
   letter-spacing: 1px;
-  opacity: 0.15;
+  opacity: 0.92;
   pointer-events: none;
   text-transform: uppercase;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+  z-index: 15;
 }
 
 /* ===== BRANCH LABEL ===== */
 .branch-tag {
   position: absolute;
-  padding: 4px 14px;
+  padding: 6px 14px;
   border-radius: 12px;
   font-size: 12px;
-  font-weight: 700;
+  font-weight: 800;
+  border: 1px solid rgba(255,255,255,0.25);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+  z-index: 12;
 }
 
 
 .flow-hint {
   position: absolute;
-  padding: 6px 10px;
+  padding: 7px 11px;
   border-radius: 10px;
   font-size: 11px;
-  font-weight: 700;
-  border: 1px dashed rgba(255,255,255,0.2);
-  background: rgba(13,13,26,0.75);
+  font-weight: 800;
+  border: 1px dashed rgba(255,255,255,0.45);
+  background: rgba(13,13,26,0.92);
   color: var(--text-bright);
   pointer-events: none;
+  z-index: 13;
 }
 
 /* ===== DECISION NODE ===== */
@@ -302,7 +308,7 @@ body {
     <div class="chip chip-pink" onclick="jumpTo(200,3100)">4А</div>
     <div class="chip chip-blue" onclick="jumpTo(1400,3100)">4Б</div>
     <div class="chip chip-pink" onclick="jumpTo(200,4300)">Блок 5</div>
-    <div class="chip chip-green" onclick="jumpTo(820,5480)">Результат</div>
+    <div class="chip chip-green" onclick="jumpTo(820,5860)">Результат</div>
   </div>
   <div class="zoom-controls">
     <button class="tbtn" onclick="zoomBy(-0.1)">−</button>
@@ -318,7 +324,7 @@ body {
   <div class="canvas" id="canvas">
 
     <!-- SVG arrows -->
-    <svg class="arrows-svg" id="svg" width="2500" height="7000">
+    <svg class="arrows-svg" id="svg" width="2500" height="7600">
       <defs>
         <marker id="ap" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#a06bff"/></marker>
         <marker id="ak" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#ff6b9d"/></marker>
@@ -554,15 +560,15 @@ body {
     <div class="qcard qcard-pink" id="q52" style="left:680px; top:4300px;"><div class="qcard-head"><span class="qcard-num">5.2</span><span class="qcard-title">Кто инициирует?</span><span class="qcard-var">{initiator}</span></div><table class="qcard-table"><tr><th>Кнопка</th><th>Значение</th></tr><tr><td><span class="b">1</span> Чаще он</td><td class="v">he</td></tr><tr><td><span class="b">2</span> Чаще я</td><td class="v">she</td></tr><tr><td><span class="b">3</span> 50/50</td><td class="v">balanced</td></tr><tr><td><span class="b">4</span> Никто</td><td class="v">nobody</td></tr></table></div>
     <div class="qcard qcard-pink" id="q53" style="left:200px; top:4620px;"><div class="qcard-head"><span class="qcard-num">5.3</span><span class="qcard-title">Измены/подозрения</span><span class="qcard-var">{cheating}</span></div><table class="qcard-table"><tr><th>Кнопка</th><th>Значение</th></tr><tr><td><span class="b">1</span> Полное доверие</td><td class="v">trust</td></tr><tr><td><span class="b">2</span> Иногда сомнения</td><td class="v">doubts</td></tr><tr><td><span class="b">3</span> Есть подозрения</td><td class="v">suspect</td></tr><tr><td><span class="b">4</span> Да, была измена</td><td class="v">yes</td></tr><tr><td><span class="b">5</span> Не хочу отвечать</td><td class="v">skip</td></tr></table></div>
     <div class="qcard qcard-pink" id="q54" style="left:680px; top:4620px;"><div class="qcard-head"><span class="qcard-num">5.4</span><span class="qcard-title">Главная боль в отношениях</span><span class="qcard-var">{main_problem}</span></div><table class="qcard-table"><tr><th>Кнопка</th><th>Значение</th></tr><tr><td><span class="b">1</span> Измена/подозрения</td><td class="v">cheating_worry</td></tr><tr><td><span class="b">2</span> Как соседи</td><td class="v">roommates</td></tr><tr><td><span class="b">3</span> Нет романтики</td><td class="v">no_romance</td></tr><tr><td><span class="b">4</span> Нет удовольствия</td><td class="v">no_pleasure</td></tr><tr><td><span class="b">5</span> Много обид</td><td class="v">resentment</td></tr><tr><td><span class="b">6</span> Всё хорошо</td><td class="v">ok</td></tr></table></div>
-    <div class="decision" id="merge5" style="left:500px; top:4890px; border-color: var(--pink); padding: 10px 18px;">
+    <div class="decision" id="merge5" style="left:500px; top:5180px; border-color: var(--pink); padding: 10px 18px;">
       <div class="decision-label" style="font-size:12px; color:var(--pink);">Свести ответы 5.3 + 5.4</div>
       <div class="decision-sub">Обе ветки идут в вопрос 5.5</div>
     </div>
-    <div class="qcard qcard-pink" id="q55" style="left:440px; top:5050px;"><div class="qcard-head"><span class="qcard-num">5.5</span><span class="qcard-title">Что хочешь изменить?</span><span class="qcard-var">{change_wish}</span></div><table class="qcard-table"><tr><th>Кнопка</th><th>Значение</th></tr><tr><td><span class="b">1</span> Хочу чаще</td><td class="v">more_frequency</td></tr><tr><td><span class="b">2</span> Хочу разнообразнее</td><td class="v">more_variety</td></tr><tr><td><span class="b">3</span> Хочу больше страсти</td><td class="v">more_passion</td></tr><tr><td><span class="b">4</span> Хочу больше удовольствия</td><td class="v">more_pleasure</td></tr><tr><td><span class="b">5</span> Всё устраивает</td><td class="v">ok</td></tr></table><div class="qcard-next">→ <strong>Результат</strong></div></div>
+    <div class="qcard qcard-pink" id="q55" style="left:440px; top:5360px;"><div class="qcard-head"><span class="qcard-num">5.5</span><span class="qcard-title">Что хочешь изменить?</span><span class="qcard-var">{change_wish}</span></div><table class="qcard-table"><tr><th>Кнопка</th><th>Значение</th></tr><tr><td><span class="b">1</span> Хочу чаще</td><td class="v">more_frequency</td></tr><tr><td><span class="b">2</span> Хочу разнообразнее</td><td class="v">more_variety</td></tr><tr><td><span class="b">3</span> Хочу больше страсти</td><td class="v">more_passion</td></tr><tr><td><span class="b">4</span> Хочу больше удовольствия</td><td class="v">more_pleasure</td></tr><tr><td><span class="b">5</span> Всё устраивает</td><td class="v">ok</td></tr></table><div class="qcard-next">→ <strong>Результат</strong></div></div>
 
-    <div class="group-label" style="left:100px; top:5410px; color:var(--green);">Результаты и логика рекомендаций</div>
+    <div class="group-label" style="left:100px; top:5790px; color:var(--green);">Результаты и логика рекомендаций</div>
 
-    <div class="qcard qcard-green" id="recCouple" style="left:120px; top:5480px; width:980px;">
+    <div class="qcard qcard-green" id="recCouple" style="left:120px; top:5860px; width:980px;">
       <div class="qcard-head"><span class="qcard-num">П1-П15</span><span class="qcard-title">Приоритет рекомендаций для тех, кто в паре</span><span class="qcard-var">top-down</span></div>
       <div class="qcard-msg">Выбирается первая подходящая комбинация.</div>
       <table class="qcard-table"><tr><th>#</th><th>Логика</th></tr>
@@ -581,7 +587,7 @@ body {
         <tr><td>П15</td><td>Fallback</td></tr></table>
     </div>
 
-    <div class="qcard qcard-green" id="recSingle" style="left:1280px; top:5480px; width:980px;">
+    <div class="qcard qcard-green" id="recSingle" style="left:1280px; top:5860px; width:980px;">
       <div class="qcard-head"><span class="qcard-num">С1-С15</span><span class="qcard-title">Приоритет рекомендаций для свободных</span><span class="qcard-var">top-down</span></div>
       <div class="qcard-msg">Выбирается первая подходящая комбинация.</div>
       <table class="qcard-table"><tr><th>#</th><th>Логика</th></tr>
@@ -595,7 +601,7 @@ body {
         <tr><td>С15</td><td>Fallback</td></tr></table>
     </div>
 
-    <div class="qcard" id="vars" style="left:760px; top:6240px; width:980px; border-color: rgba(107,255,184,0.4);">
+    <div class="qcard" id="vars" style="left:760px; top:6660px; width:980px; border-color: rgba(107,255,184,0.4);">
       <div class="qcard-head"><span class="qcard-num" style="background:var(--green-bg);color:var(--green);">7</span><span class="qcard-title">Сводная таблица переменных</span><span class="qcard-var">all vars</span></div>
       <div class="qcard-msg">Ключевые переменные для формирования результата и шаблона сообщения.</div>
       <table class="qcard-table"><tr><th>Группа</th><th>Переменные</th></tr>
@@ -668,15 +674,15 @@ function jumpTo(x, y) {
 // === DRAW ARROWS ===
 function line(x1,y1,x2,y2,color,marker) {
   const svg = document.getElementById('svg');
-  const dy = y2-y1, dx = x2-x1;
   const p = document.createElementNS('http://www.w3.org/2000/svg','path');
-  // smooth vertical bezier
-  const cy1 = y1 + dy*0.4, cy2 = y2 - dy*0.4;
-  p.setAttribute('d',`M${x1},${y1} C${x1},${cy1} ${x2},${cy2} ${x2},${y2}`);
+  const midY = y1 + (y2 - y1) * 0.52;
+  p.setAttribute('d',`M${x1},${y1} L${x1},${midY} L${x2},${midY} L${x2},${y2}`);
   p.setAttribute('stroke', color);
-  p.setAttribute('stroke-width','2.4');
+  p.setAttribute('stroke-width','2.8');
   p.setAttribute('fill','none');
-  p.setAttribute('stroke-opacity','0.78');
+  p.setAttribute('stroke-opacity','0.9');
+  p.setAttribute('stroke-linejoin','round');
+  p.setAttribute('stroke-linecap','round');
   p.setAttribute('marker-end',`url(#${marker})`);
   svg.appendChild(p);
 }
@@ -742,9 +748,9 @@ function drawArrows() {
 
   // Блок 5 -> результат в паре
   [['q51','q53'],['q52','q54']].forEach(([a,b])=>connect(a,b,'#ff6b9d','ak'));
-  connect('q53','merge5','#ff6b9d','ak',40,-10);
-  connect('q54','merge5','#ff6b9d','ak',-40,10);
-  connect('merge5','q55','#ff6b9d','ak');
+  connect('q53','merge5','#ff6b9d','ak',110,-70);
+  connect('q54','merge5','#ff6b9d','ak',-110,70);
+  connect('merge5','q55','#ff6b9d','ak',0,0,6);
   connect('q55','recCouple','#ff6b9d','ak');
 
   // Сходимость результатов в сводку переменных
@@ -756,7 +762,7 @@ function drawArrows() {
 function updateMM() {
   const mc=document.getElementById('mmCanvas'), ctx=mc.getContext('2d');
   ctx.clearRect(0,0,mc.width,mc.height);
-  const bw=2500, bh=7000, s=Math.min(mc.width/bw, mc.height/bh);
+  const bw=2500, bh=7600, s=Math.min(mc.width/bw, mc.height/bh);
   document.querySelectorAll('.qcard,.placeholder-card,.decision').forEach(n=>{
     const x=parseInt(n.style.left)*s, y=parseInt(n.style.top)*s;
     const w=(n.offsetWidth||340)*s, h=(n.offsetHeight||100)*s;
